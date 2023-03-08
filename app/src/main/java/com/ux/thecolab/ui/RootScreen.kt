@@ -8,14 +8,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ux.thecolab.R
-import androidx.compose.runtime.saveable.rememberSaveable
+import com.ux.thecolab.components.CustomButton
+import com.ux.thecolab.components.CustomTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,29 +53,10 @@ fun RootScreen(
             )
 
             Spacer(modifier = Modifier.padding(25.dp))
-            var name by remember { mutableStateOf("") }
-            OutlinedTextField(
-                value = name,
-                onValueChange = { name = it },
-                label = { Text("Nombre de usuario") },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    unfocusedBorderColor = unfocusedColor,
-                    unfocusedLabelColor = unfocusedColor,
-                    focusedBorderColor = focusedColor,
-                    focusedLabelColor = focusedColor,
-                    textColor = primaryColor
-                )
-            )
+            CustomTextField(unfocusedColor = unfocusedColor, focusedColor = focusedColor, primaryColor = primaryColor, text = "Nombre de usuario")
 
             Spacer(modifier = Modifier.padding(15.dp))
-            Button(
-                onClick = onClickRegister,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = primaryColor,
-                    contentColor = whiteColor)
-            ) {
-                Text("Iniciar sesión")
-            }
+            CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Iniciar sesión", route = "")
         }
     }
 }
