@@ -19,7 +19,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RootScreen() {
+fun RootScreen(
+    onClickRegister: () -> Unit = {},
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -68,7 +70,7 @@ fun RootScreen() {
 
             Spacer(modifier = Modifier.padding(15.dp))
             Button(
-                onClick = {  },
+                onClick = onClickRegister,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = primaryColor,
                     contentColor = whiteColor)
