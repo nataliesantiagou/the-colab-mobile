@@ -11,10 +11,10 @@ fun CustomButton (
     containerColor: Color,
     contentColor: Color,
     text: String,
-    route: String?
+    onClick : () -> Unit = {},
 ) {
     Button(
-        onClick = { },
+        onClick = onClick,
         colors = ButtonDefaults.buttonColors(
             containerColor = containerColor,
             contentColor = contentColor

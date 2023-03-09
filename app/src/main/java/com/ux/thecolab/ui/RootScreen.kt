@@ -60,13 +60,13 @@ fun RootScreen(
             CustomTextFieldPassword(unfocusedColor = unfocusedColor, focusedColor = focusedColor, primaryColor = primaryColor, text = "Contraseña")
 
             Spacer(modifier = Modifier.padding(10.dp))
-            CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Iniciar sesión", route = "")
+            CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Iniciar sesión" )
 
             Spacer(modifier = Modifier.padding(5.dp))
             Text(text = "O", fontSize = 14.sp, fontWeight = FontWeight.Normal, color = primaryColor)
 
             Spacer(modifier = Modifier.padding(5.dp))
-            CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Crear cuenta", route = "")
+            CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Crear cuenta", onClick = onClickRegister)
 
             Spacer(modifier = Modifier.padding(5.dp))
             Text(text = "Recuperar contraseña", fontSize = 14.sp, fontWeight = FontWeight.Normal, color = primaryColor)
