@@ -26,5 +26,15 @@ object Register : ColabDestination {
     override val route = "register"
 }
 
+object Recover : ColabDestination {
+    override val icon = Icons.Filled.Person
+    override val route = "recover"
+}
+
+object AlarmList : ColabDestination {
+    override val icon = Icons.Filled.Person
+    override val route = "alarm-list"
+}
+
 // Screens to be displayed in the top ColabTabRow
 val colabTabRowScreens = listOf(Root)

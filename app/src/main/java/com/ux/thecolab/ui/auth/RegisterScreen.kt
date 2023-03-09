@@ -1,14 +1,16 @@
 package com.ux.thecolab.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -18,12 +20,10 @@ import com.ux.thecolab.components.CustomButton
 import com.ux.thecolab.components.CustomTextField
 import com.ux.thecolab.components.CustomTextFieldPassword
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RootScreen(
-    onClickRegister: () -> Unit = {},
-    onClickRecover: () -> Unit = {},
-    onClickLogin: () -> Unit = {}
+fun RegisterScreen(
+    onClickRoot: () -> Unit = {},
+    onClickRegister: () -> Unit = {}
 ) {
     Box(
         modifier = Modifier
@@ -44,38 +44,38 @@ fun RootScreen(
                 .fillMaxWidth()
                 .fillMaxHeight()
         )
+
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.padding(40.dp))
             Text(text = "THE COLAB", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = primaryColor)
 
-            Spacer(modifier = Modifier.padding(25.dp))
-            Image(
-                contentScale = ContentScale.FillHeight,
-                painter = painterResource(id = R.drawable.logo),
-                contentDescription = null,
-                modifier = Modifier.size(126.dp)
-            )
-
             Spacer(modifier = Modifier.padding(15.dp))
+            CustomTextField(unfocusedColor = unfocusedColor, focusedColor = focusedColor, primaryColor = primaryColor, text = "Correo electrónico")
+
+            Spacer(modifier = Modifier.padding(10.dp))
             CustomTextField(unfocusedColor = unfocusedColor, focusedColor = focusedColor, primaryColor = primaryColor, text = "Nombre de usuario")
 
             Spacer(modifier = Modifier.padding(10.dp))
             CustomTextFieldPassword(unfocusedColor = unfocusedColor, focusedColor = focusedColor, primaryColor = primaryColor, text = "Contraseña")
 
             Spacer(modifier = Modifier.padding(10.dp))
-            CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Iniciar sesión", onClick = onClickLogin)
+            CustomTextFieldPassword(unfocusedColor = unfocusedColor, focusedColor = focusedColor, primaryColor = primaryColor, text = "Repetir contraseña")
+
+            val context = LocalContext.current
+            Spacer(modifier = Modifier.padding(15.dp))
+            CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Crear cuenta", onClick = { onClickRegister();
+                Toast.makeText(
+                    context,
+                    "Registro exitoso.",
+                    Toast.LENGTH_LONG
+                ).show()
+            })
 
             Spacer(modifier = Modifier.padding(5.dp))
             Text(text = "O", fontSize = 14.sp, fontWeight = FontWeight.Normal, color = primaryColor)
 
             Spacer(modifier = Modifier.padding(5.dp))
-            CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Crear cuenta", onClick = onClickRegister)
-
-            Spacer(modifier = Modifier.padding(5.dp))
-            Text(text = "Recuperar contraseña", fontSize = 14.sp, fontWeight = FontWeight.Normal, color = primaryColor, modifier = Modifier
-                .clickable() {
-                    onClickRecover()
-                } )
+            CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Iniciar sesión", onClick = onClickRoot)
         }
     }
 }
