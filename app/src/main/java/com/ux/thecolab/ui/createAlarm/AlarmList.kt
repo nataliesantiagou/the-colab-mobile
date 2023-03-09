@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ux.thecolab.components.ColabBottomNavigation
 import com.ux.thecolab.components.CustomHeader
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -43,7 +44,8 @@ fun AlbumListScreen(
                 )
             }
         },
-        floatingActionButtonPosition = FabPosition.End
+        floatingActionButtonPosition = FabPosition.End,
+        bottomBar = { ColabBottomNavigation() }
     ){
         LazyColumn(
             modifier = Modifier.fillMaxHeight()
@@ -54,7 +56,8 @@ fun AlbumListScreen(
 
             item {
                 Column(
-                    modifier = Modifier.fillParentMaxHeight()
+                    modifier = Modifier
+                        .fillParentMaxHeight()
                         .fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
