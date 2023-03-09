@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.sp
 import com.ux.thecolab.R
 import com.ux.thecolab.components.CustomButton
 import com.ux.thecolab.components.CustomTextField
+import com.ux.thecolab.components.CustomTextFieldPassword
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,7 +45,7 @@ fun RootScreen(
             Spacer(modifier = Modifier.padding(40.dp))
             Text(text = "THE COLAB", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = primaryColor)
 
-            Spacer(modifier = Modifier.padding(34.dp))
+            Spacer(modifier = Modifier.padding(25.dp))
             Image(
                 contentScale = ContentScale.FillHeight,
                 painter = painterResource(id = R.drawable.logo),
@@ -52,11 +53,23 @@ fun RootScreen(
                 modifier = Modifier.size(126.dp)
             )
 
-            Spacer(modifier = Modifier.padding(25.dp))
+            Spacer(modifier = Modifier.padding(15.dp))
             CustomTextField(unfocusedColor = unfocusedColor, focusedColor = focusedColor, primaryColor = primaryColor, text = "Nombre de usuario")
 
-            Spacer(modifier = Modifier.padding(15.dp))
+            Spacer(modifier = Modifier.padding(10.dp))
+            CustomTextFieldPassword(unfocusedColor = unfocusedColor, focusedColor = focusedColor, primaryColor = primaryColor, text = "Contraseña")
+
+            Spacer(modifier = Modifier.padding(10.dp))
             CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Iniciar sesión", route = "")
+
+            Spacer(modifier = Modifier.padding(5.dp))
+            Text(text = "O", fontSize = 14.sp, fontWeight = FontWeight.Normal, color = primaryColor)
+
+            Spacer(modifier = Modifier.padding(5.dp))
+            CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Crear cuenta", route = "")
+
+            Spacer(modifier = Modifier.padding(5.dp))
+            Text(text = "Recuperar contraseña", fontSize = 14.sp, fontWeight = FontWeight.Normal, color = primaryColor)
         }
     }
 }
