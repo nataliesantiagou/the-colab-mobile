@@ -44,27 +44,6 @@ fun ColabNavHost(
                 }
             )
         }
-        composable(route = AlarmList.route) {
-            AlarmListScreen(
-                onClickCreate = {
-                    navController.navigate(route = Root.route)
-                }
-            )
-        }
-        composable(route = PatientsList.route) {
-            PatientsListScreen(
-                onClickCreate = {
-                    navController.navigate(route = CreatePatient.route)
-                }
-            )
-        }
-        composable(route = CreatePatient.route) {
-            CreatePatientScreen(
-                onClickCreate = {
-                    navController.navigate(route = Root.route)
-                }
-            )
-        }
         composable(route = Home.route) {
             HomeScreen(navControllerRoot = navController)
         }

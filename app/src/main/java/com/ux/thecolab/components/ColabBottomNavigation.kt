@@ -1,5 +1,4 @@
 package com.ux.thecolab.components
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,7 +8,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ux.thecolab.ColabDestination
@@ -18,19 +16,23 @@ import com.ux.thecolab.ColabDestination
 fun ColabBottomNavigation(
     allScreens: List<ColabDestination>,
     onTabSelected: (ColabDestination) -> Unit,
-    currentScreen: ColabDestination
+    currentScreen: ColabDestination,
+    visible: Boolean
 ) {
-    Row(
-        modifier = Modifier
-            .background(Color.Transparent)
-            .fillMaxWidth()
-    ) {
-        allScreens.forEach { screen ->
-            AddItem(
-                label = screen.label,
-                onSelected = { onTabSelected(screen) },
-                selected = currentScreen == screen
-            )
+    if (visible) {
+
+        Row(
+            modifier = Modifier
+                .background(Color.Transparent)
+                .fillMaxWidth()
+        ) {
+            allScreens.forEach { screen ->
+                AddItem(
+                    label = screen.label,
+                    onSelected = { onTabSelected(screen) },
+                    selected = currentScreen == screen
+                )
+            }
         }
     }
 }
