@@ -43,8 +43,7 @@ fun CreatePatientScreen(
                 CustomButton(containerColor = unfocusedColor, contentColor = whiteColor, text = "Guardar")
             }
         },
-        floatingActionButtonPosition = FabPosition.Center,
-        bottomBar = { ColabBottomNavigation() }
+        floatingActionButtonPosition = FabPosition.Center
     ){
         LazyColumn(
             modifier = Modifier.fillMaxHeight()

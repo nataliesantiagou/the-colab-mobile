@@ -18,10 +18,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             TheColabTheme {
                 val navController = rememberNavController()
-                val currentBackStack by navController.currentBackStackEntryAsState()
-                val currentDestination = currentBackStack?.destination
-                val currentScreen =
-                    colabTabRowScreens.find { it.route == currentDestination?.route } ?: Root
 
                 Scaffold(bottomBar = {
 

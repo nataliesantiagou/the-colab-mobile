@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Person
 interface ColabDestination {
     val icon: ImageVector
     val route: String
+    val label: String
 }
 
 /**
@@ -19,32 +20,44 @@ interface ColabDestination {
 object Root : ColabDestination {
     override val icon = Icons.Filled.Email
     override val route = "root"
+    override val label = "root"
 }
 
 object Register : ColabDestination {
     override val icon = Icons.Filled.Person
     override val route = "register"
+    override val label = "register"
 }
 
 object Recover : ColabDestination {
     override val icon = Icons.Filled.Person
     override val route = "recover"
+    override val label = "recover"
 }
 
 object AlarmList : ColabDestination {
     override val icon = Icons.Filled.Person
     override val route = "alarm-list"
+    override val label = "Recordatorios"
 }
 
 object PatientsList : ColabDestination {
     override val icon = Icons.Filled.Person
     override val route = "patients"
+    override val label = "Pacientes"
 }
 
 object CreatePatient : ColabDestination {
     override val icon = Icons.Filled.Person
     override val route = "create-patients"
+    override val label = "create-patients"
+}
+
+object Home : ColabDestination {
+    override val icon = Icons.Filled.Person
+    override val route = "home"
+    override val label = "home"
 }
 
 // Screens to be displayed in the top ColabTabRow
-val colabTabRowScreens = listOf(Root)
+val colabTabRowScreens = listOf(AlarmList, PatientsList)

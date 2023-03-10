@@ -12,34 +12,32 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ux.thecolab.ColabDestination
 
 @Composable
-fun ColabBottomNavigation() {
-    BottomBar()
-}
-
-@Composable
-fun BottomBar() {
-    var selectedItem by remember { mutableStateOf(0) }
-    val items = listOf("Recordatorios", "Pacientes")
-
+fun ColabBottomNavigation(
+    allScreens: List<ColabDestination>,
+    onTabSelected: (ColabDestination) -> Unit,
+    currentScreen: ColabDestination
+) {
     Row(
         modifier = Modifier
             .background(Color.Transparent)
             .fillMaxWidth()
     ) {
-        items.forEachIndexed { index, item ->
+        allScreens.forEach { screen ->
             AddItem(
-                label = item,
-                selected = selectedItem == index,
-                onClick = { selectedItem = index }
+                label = screen.label,
+                onSelected = { onTabSelected(screen) },
+                selected = currentScreen == screen
             )
         }
     }
 }
 
+
 @Composable
-fun RowScope.AddItem(label: String, selected: Boolean, onClick : () -> Unit = {}) {
+fun RowScope.AddItem(label: String, selected: Boolean, onSelected : () -> Unit = {}) {
     val whiteColor: Color = MaterialTheme.colorScheme.onSecondary
     val tertiaryColor: Color = MaterialTheme.colorScheme.tertiary
 
@@ -54,7 +52,7 @@ fun RowScope.AddItem(label: String, selected: Boolean, onClick : () -> Unit = {}
             .height(55.dp)
             .weight(1f)
             .background(background)
-            .clickable(onClick = onClick)
+            .clickable(onClick = onSelected)
     ) {
 
 
@@ -72,10 +70,4 @@ fun RowScope.AddItem(label: String, selected: Boolean, onClick : () -> Unit = {}
             )
         }
     }
-}
-
-@Composable
-@Preview
-fun BottomNavPreview() {
-    ColabBottomNavigation()
 }

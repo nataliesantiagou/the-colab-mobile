@@ -26,7 +26,7 @@ fun ColabNavHost(
                     navController.navigate(route = Recover.route)
                 },
                 onClickLogin = {
-                    navController.navigate(route = PatientsList.route)
+                    navController.navigate(route = Home.route)
                 }
             )
         }
@@ -64,6 +64,9 @@ fun ColabNavHost(
                     navController.navigate(route = Root.route)
                 }
             )
+        }
+        composable(route = Home.route) {
+            HomeScreen(navControllerRoot = navController)
         }
     }
 }

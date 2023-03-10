@@ -32,7 +32,6 @@ fun AlarmListScreen(
             CustomFloatCreate(containerColor = onTertiaryColor, contentColor = whiteColor, onClick = onClickCreate)
         },
         floatingActionButtonPosition = FabPosition.End,
-        bottomBar = { ColabBottomNavigation() }
     ){
         LazyColumn(
             modifier = Modifier.fillMaxHeight()
