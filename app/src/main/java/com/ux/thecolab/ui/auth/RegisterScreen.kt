@@ -4,13 +4,14 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -61,14 +62,11 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.padding(10.dp))
             CustomTextFieldPassword(unfocusedColor = unfocusedColor, focusedColor = focusedColor, primaryColor = primaryColor, text = "Repetir contraseña")
 
-            val context = LocalContext.current
+            val snackState = remember { SnackbarHostState() }
+            val snackScope = rememberCoroutineScope()
+            SnackbarHost(hostState = snackState, Modifier)
             Spacer(modifier = Modifier.padding(15.dp))
-            CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Crear cuenta", onClick = { onClickRegister();
-                Toast.makeText(
-                    context,
-                    "Registro exitoso.",
-                    Toast.LENGTH_LONG
-                ).show()
+            CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Crear cuenta", onClick = { onClickRoot()
             })
 
             Spacer(modifier = Modifier.padding(5.dp))

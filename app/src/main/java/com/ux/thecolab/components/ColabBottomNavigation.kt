@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun ColabBottomNavigation() {
@@ -20,11 +21,10 @@ fun ColabBottomNavigation() {
 @Composable
 fun BottomBar() {
     var selectedItem by remember { mutableStateOf(0) }
-    val items = listOf("Artists", "Playlists")
+    val items = listOf("Recordatorios", "Pacientes")
 
     Row(
         modifier = Modifier
-            .padding(start = 10.dp, end = 10.dp, top = 8.dp, bottom = 8.dp)
             .background(Color.Transparent)
             .fillMaxWidth()
     ) {
@@ -40,15 +40,18 @@ fun BottomBar() {
 
 @Composable
 fun RowScope.AddItem(label: String, selected: Boolean, onClick : () -> Unit = {}) {
+    val whiteColor: Color = MaterialTheme.colorScheme.onSecondary
+    val tertiaryColor: Color = MaterialTheme.colorScheme.tertiary
+
     val background =
-        if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.6f) else Color.Transparent
+        if (selected) tertiaryColor else tertiaryColor.copy(alpha = 0.8f)
 
     val contentColor =
-        if (selected) Color.Red else Color.Black
+        if (selected) whiteColor else whiteColor.copy(alpha = 0.8f)
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(40.dp)
+            .height(55.dp)
             .weight(1f)
             .background(background)
             .clickable(onClick = onClick)
@@ -57,7 +60,6 @@ fun RowScope.AddItem(label: String, selected: Boolean, onClick : () -> Unit = {}
 
         Row(
             modifier = Modifier
-                .padding(start = 10.dp, end = 10.dp, top = 8.dp, bottom = 8.dp)
                 .align(alignment = Alignment.Center),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
@@ -65,7 +67,8 @@ fun RowScope.AddItem(label: String, selected: Boolean, onClick : () -> Unit = {}
         ) {
             Text(
                 text = label,
-                color = contentColor
+                color = contentColor,
+                fontSize = 12.sp
             )
         }
     }

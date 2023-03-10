@@ -19,7 +19,7 @@ import com.ux.thecolab.components.CustomHeader
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun AlarmListScreen(
+fun PatientsListScreen(
     onClickCreate: () -> Unit = {}
 ) {
     val primaryColor: Color = MaterialTheme.colorScheme.primary
@@ -49,10 +49,10 @@ fun AlarmListScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Spacer(modifier = Modifier.padding(15.dp))
-                    Text(text = "Recordatorios", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = primaryColor)
+                    Text(text = "Pacientes", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = primaryColor)
 
                     Spacer(modifier = Modifier.padding(10.dp))
-                    Text(text = "No tienes recordatorios creados", fontSize = 14.sp, fontWeight = FontWeight.Normal, color = tertiaryColor)
+                    Text(text = "No tienes pacientes creados", fontSize = 14.sp, fontWeight = FontWeight.Normal, color = tertiaryColor)
                 }
             }
         }

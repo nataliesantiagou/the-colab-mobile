@@ -5,10 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.ux.thecolab.ui.AlbumListScreen
-import com.ux.thecolab.ui.RecoverScreen
-import com.ux.thecolab.ui.RegisterScreen
-import com.ux.thecolab.ui.RootScreen
+import com.ux.thecolab.ui.*
 
 @Composable
 fun ColabNavHost(
@@ -29,16 +26,13 @@ fun ColabNavHost(
                     navController.navigate(route = Recover.route)
                 },
                 onClickLogin = {
-                    navController.navigate(route = AlarmList.route)
+                    navController.navigate(route = PatientsList.route)
                 }
             )
         }
         composable(route = Register.route) {
             RegisterScreen(
                 onClickRoot = {
-                    navController.navigate(route = Root.route)
-                },
-                onClickRegister = {
                     navController.navigate(route = Root.route)
                 }
             )
@@ -51,8 +45,24 @@ fun ColabNavHost(
             )
         }
         composable(route = AlarmList.route) {
-            AlbumListScreen(
-
+            AlarmListScreen(
+                onClickCreate = {
+                    navController.navigate(route = Root.route)
+                }
+            )
+        }
+        composable(route = PatientsList.route) {
+            PatientsListScreen(
+                onClickCreate = {
+                    navController.navigate(route = CreatePatient.route)
+                }
+            )
+        }
+        composable(route = CreatePatient.route) {
+            CreatePatientScreen(
+                onClickCreate = {
+                    navController.navigate(route = Root.route)
+                }
             )
         }
     }
