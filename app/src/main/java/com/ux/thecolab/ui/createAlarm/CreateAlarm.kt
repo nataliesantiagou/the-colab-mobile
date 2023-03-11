@@ -11,6 +11,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -93,7 +95,7 @@ fun CreateAlarmScreen(
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
-                label = { Text("text") },
+                label = { Text("Hora") },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     unfocusedBorderColor = unfocusedColor,
                     unfocusedLabelColor = unfocusedColor,
@@ -285,17 +287,38 @@ fun DatePickerUI(
                 .fillMaxWidth()
                 .padding(vertical = 10.dp, horizontal = 5.dp)
         ) {
-            Text(
-                text = label,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.height(30.dp))
 
             var chosenHour = remember { mutableStateOf("") }
             val chosenMinutes = remember { mutableStateOf("") }
             val chosenZone = remember { mutableStateOf("") }
+
+            val primaryColor: Color = MaterialTheme.colorScheme.primary
+            val whiteColor: Color = MaterialTheme.colorScheme.onSecondary
+
+            Row(
+                modifier = Modifier
+                    .background(Color.Transparent)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                IconButton(onClick = { onDismissRequest() }, colors = IconButtonDefaults.iconButtonColors(
+                    contentColor = primaryColor
+                )) {
+                    Icon(
+                        imageVector = Icons.Filled.Close,
+                        contentDescription = "",
+                    )
+                }
+
+                val context = LocalContext.current
+                CustomButton(
+                    containerColor = primaryColor, contentColor = whiteColor, text = "Listo",
+                    onClick = { Toast.makeText(context, "${chosenZone.value}-${chosenMinutes.value}-${chosenHour.value}", Toast.LENGTH_SHORT).show()
+                        onDismissRequest() }
+                )
+            }
+
+            Spacer(modifier = Modifier.height(30.dp))
 
             DateSelectionSection(
                 onHoursChosen = { chosenHour.value = it },
@@ -305,23 +328,6 @@ fun DatePickerUI(
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            val context = LocalContext.current
-            Button(
-                shape = RoundedCornerShape(5.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp),
-                onClick = {
-                    Toast.makeText(context, "${chosenZone.value}-${chosenMinutes.value}-${chosenHour.value}", Toast.LENGTH_SHORT).show()
-                    onDismissRequest()
-                }
-            ) {
-                Text(
-                    text = "Done",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
-                )
-            }
         }
     }
 }
@@ -375,7 +381,7 @@ fun InfiniteItemsPicker(
         listState.animateScrollToItem(index = listState.firstVisibleItemIndex)
     }
 
-    Box(modifier = Modifier.height(106.dp)) {
+    Box(modifier = Modifier.height(150.dp)) {
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             state = listState,
@@ -386,7 +392,8 @@ fun InfiniteItemsPicker(
                         currentValue.value = items[index]
                     }
 
-                    Spacer(modifier = Modifier.height(6.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Divider(color = MaterialTheme.colorScheme.primary, thickness = 1.dp)
 
                     Text(
                         text = items[index],
@@ -394,7 +401,8 @@ fun InfiniteItemsPicker(
                         textAlign = TextAlign.Center
                     )
 
-                    Spacer(modifier = Modifier.height(6.dp))
+                    Divider(color = MaterialTheme.colorScheme.primary, thickness = 1.dp)
+                    Spacer(modifier = Modifier.height(10.dp))
                 })
             }
         )
