@@ -37,6 +37,7 @@ fun CreateAlarmScreen(
 
     val name = remember { mutableStateOf("") }
     val illness = remember { mutableStateOf("") }
+    val patient = remember { mutableStateOf("") }
 
     var step =  remember { mutableStateOf(0) };
 
@@ -85,7 +86,7 @@ fun CreateAlarmScreen(
             Text(text = "Crear Recordatorio", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = primaryColor)
 
             Spacer(modifier = Modifier.padding(15.dp))
-            DropDownList(itemsPacient)
+            DropDownList(options = itemsPacient, value = patient.value, selectedOptionText = { patient.value = it })
 
             Spacer(modifier = Modifier.padding(15.dp))
             CustomTextFieldForm(
@@ -112,9 +113,8 @@ fun CreateAlarmScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDownList (options: List<PatientItem>) {
+fun DropDownList (options: List<PatientItem>, value: String, selectedOptionText: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf("") }
 
 // We want to react on tap/press on TextField to show menu
     ExposedDropdownMenuBox(
@@ -125,7 +125,7 @@ fun DropDownList (options: List<PatientItem>) {
             // The `menuAnchor` modifier must be passed to the text field for correctness.
 //            modifier = Modifier.menuAnchor(),
             readOnly = true,
-            value = selectedOptionText,
+            value = value,
             onValueChange = {},
             label = { Text("Label") },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
@@ -139,7 +139,7 @@ fun DropDownList (options: List<PatientItem>) {
                 DropdownMenuItem(
                     text = { Text(selectionOption.itemName) },
                     onClick = {
-                        selectedOptionText = selectionOption.itemName
+                        selectedOptionText(selectionOption.itemName)
                         expanded = false
                     },
 //                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
