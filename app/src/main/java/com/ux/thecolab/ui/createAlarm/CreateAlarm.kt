@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -36,7 +38,7 @@ fun CreateAlarmScreen(
     val whiteColor: Color = MaterialTheme.colorScheme.onSecondary
 
     val name = remember { mutableStateOf("") }
-    val illness = remember { mutableStateOf("") }
+    val frecuence = remember { mutableStateOf("") }
     val patient = remember { mutableStateOf("") }
     val hour = remember { mutableStateOf("") }
     val contact = remember { mutableStateOf("") }
@@ -51,7 +53,53 @@ fun CreateAlarmScreen(
     val itemsPacient = mPatientViewModel.readAllData.observeAsState(listOf()).value
 
     Scaffold(
-        floatingActionButton = {
+    ){
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(enabled = true, state = rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.padding(15.dp))
+            Text(text = "Crear Recordatorio", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = primaryColor)
+
+            Spacer(modifier = Modifier.padding(15.dp))
+            DropDownList(options = itemsPacient, value = patient.value, selectedOptionText = { patient.value = it })
+
+            Spacer(modifier = Modifier.padding(15.dp))
+            CustomTextFieldForm(
+                unfocusedColor = unfocusedColor,
+                focusedColor = focusedColor,
+                primaryColor = primaryColor,
+                text = "Nombre del medicamento",
+                value = name.value,
+                onValueChange = { name.value = it },
+            )
+
+            Spacer(modifier = Modifier.padding(15.dp))
+            DropDownList(value = frecuence.value, selectedOptionText = { frecuence.value = it })
+
+            Spacer(modifier = Modifier.padding(15.dp))
+            CustomTextFieldForm(
+                unfocusedColor = unfocusedColor,
+                focusedColor = focusedColor,
+                primaryColor = primaryColor,
+                text = "Hora",
+                value = hour.value,
+                onValueChange = { hour.value = it },
+            )
+
+            Spacer(modifier = Modifier.padding(15.dp))
+            CustomTextFieldForm(
+                unfocusedColor = unfocusedColor,
+                focusedColor = focusedColor,
+                primaryColor = primaryColor,
+                text = "Número de contacto",
+                value = contact.value,
+                onValueChange = { contact.value = it },
+            )
+
+            Spacer(modifier = Modifier.padding(15.dp))
             Row(
                 modifier = Modifier
                     .background(Color.Transparent)
@@ -76,52 +124,7 @@ fun CreateAlarmScreen(
                     }
                 })
             }
-        },
-        floatingActionButtonPosition = FabPosition.Center
-    ){
-        Column(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
             Spacer(modifier = Modifier.padding(15.dp))
-            Text(text = "Crear Recordatorio", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = primaryColor)
-
-            Spacer(modifier = Modifier.padding(15.dp))
-            DropDownList(options = itemsPacient, value = patient.value, selectedOptionText = { patient.value = it })
-
-            Spacer(modifier = Modifier.padding(15.dp))
-            CustomTextFieldForm(
-                unfocusedColor = unfocusedColor,
-                focusedColor = focusedColor,
-                primaryColor = primaryColor,
-                text = "Nombre del medicamento",
-                value = name.value,
-                onValueChange = { name.value = it },
-            )
-
-            Spacer(modifier = Modifier.padding(15.dp))
-            DropDownList(options = itemsPacient, value = patient.value, selectedOptionText = { patient.value = it })
-
-            Spacer(modifier = Modifier.padding(15.dp))
-            CustomTextFieldForm(
-                unfocusedColor = unfocusedColor,
-                focusedColor = focusedColor,
-                primaryColor = primaryColor,
-                text = "Hora",
-                value = hour.value,
-                onValueChange = { hour.value = it },
-            )
-
-            Spacer(modifier = Modifier.padding(15.dp))
-            CustomTextFieldForm(
-                unfocusedColor = unfocusedColor,
-                focusedColor = focusedColor,
-                primaryColor = primaryColor,
-                text = "Número de contacto",
-                value = contact.value,
-                onValueChange = { contact.value = it },
-            )
         }
     }
 }
@@ -165,6 +168,56 @@ fun DropDownList (options: List<PatientItem>, value: String, selectedOptionText:
                     text = { Text(selectionOption.itemName) },
                     onClick = {
                         selectedOptionText(selectionOption.itemName)
+                        expanded = false
+                    },
+//                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                )
+            }
+        }
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DropDownList (value: String, selectedOptionText: (String) -> Unit) {
+    val focusedColor: Color = MaterialTheme.colorScheme.onPrimary
+    val unfocusedColor: Color = MaterialTheme.colorScheme.secondary
+    val primaryColor: Color = MaterialTheme.colorScheme.primary
+
+    val options = listOf("Cada día", "Dias especificos", "Intervalo de dias")
+    var expanded by remember { mutableStateOf(false) }
+
+// We want to react on tap/press on TextField to show menu
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded },
+    ) {
+        OutlinedTextField(
+            // The `menuAnchor` modifier must be passed to the text field for correctness.
+//            modifier = Modifier.menuAnchor(),
+            readOnly = true,
+            value = value,
+            onValueChange = {},
+            label = { Text("Frecuencia") },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                unfocusedBorderColor = unfocusedColor,
+                unfocusedLabelColor = unfocusedColor,
+                focusedBorderColor = focusedColor,
+                focusedLabelColor = focusedColor,
+                textColor = primaryColor
+            )
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+        ) {
+            options.forEach { selectionOption ->
+                DropdownMenuItem(
+                    text = { Text(selectionOption) },
+                    onClick = {
+                        selectedOptionText(selectionOption)
                         expanded = false
                     },
 //                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,

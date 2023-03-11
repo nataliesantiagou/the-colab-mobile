@@ -13,10 +13,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.ux.thecolab.AlarmList
-import com.ux.thecolab.CreatePatient
-import com.ux.thecolab.ListNavHost
-import com.ux.thecolab.colabTabRowScreens
+import com.ux.thecolab.*
 import com.ux.thecolab.components.ColabBottomNavigation
 import kotlinx.coroutines.launch
 
@@ -42,7 +39,7 @@ fun HomeScreen(navControllerRoot: NavHostController) {
                 navController.navigate(newScreen.route)
             },
             currentScreen = currentScreen,
-            visible = CreatePatient.route != currentDestination?.route
+            visible = true
         )
     },
         snackbarHost = {
@@ -84,7 +81,7 @@ fun HomeScreen(navControllerRoot: NavHostController) {
                     )
                 },
                 navigationIcon = {
-                    if (CreatePatient.route == currentDestination?.route) {
+                    if (CreatePatient.route == currentDestination?.route || CreateAlarm.route == currentDestination?.route) {
                         IconButton(onClick = { navController.popBackStack() }, colors = IconButtonDefaults.iconButtonColors(
                             contentColor = MaterialTheme.colorScheme.onSecondary
                         )) {
