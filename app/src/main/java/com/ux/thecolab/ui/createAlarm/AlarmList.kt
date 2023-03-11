@@ -44,21 +44,6 @@ fun AlarmListScreen(
 
     val itemsPacient = mTodoViewModel.readAllData.observeAsState(listOf()).value
 
-    val numbers = listOf(
-        Frecuency(1, "1"),
-        Frecuency(2, "2"),
-        Frecuency(3, "3"),
-        Frecuency(4, "4"),
-    )
-    val number = remember { mutableStateOf("") }
-
-    val frecuencies = listOf(
-        Frecuency(1, "Dias"),
-        Frecuency(2, "Semanas"),
-        Frecuency(3, "Meses"),
-    )
-    val frecuency = remember { mutableStateOf("") }
-
     Scaffold(
         floatingActionButton = {
             CustomFloatCreate(containerColor = onTertiaryColor, contentColor = whiteColor, onClick = {
@@ -90,28 +75,7 @@ fun AlarmListScreen(
 
                     CheckboxListExample(primaryColor, whiteColor)
 
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .background(Color.Transparent)
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            DropDownList(
-                                options = numbers,
-                                value = number.value,
-                                selectedOptionText = { number.value = it })
 
-                            DropDownList(
-                                options = frecuencies,
-                                value = frecuency.value,
-                                selectedOptionText = { frecuency.value = it })
-                        }
-                    }
                 }
             }
         }

@@ -32,6 +32,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ux.thecolab.data.PatientItem
 import com.ux.thecolab.data.PatientViewModel
 import com.ux.thecolab.data.PatientViewModelFactory
+import com.ux.thecolab.ui.Frecuency
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,7 +53,7 @@ fun CreateAlarmScreen(
     val hour = remember { mutableStateOf("") }
     val contact = remember { mutableStateOf("") }
 
-    var step =  remember { mutableStateOf(0) };
+    var step = remember { mutableStateOf(0) };
 
     val context = LocalContext.current
     val mPatientViewModel: PatientViewModel = viewModel(
@@ -62,9 +63,10 @@ fun CreateAlarmScreen(
     val itemsPacient = mPatientViewModel.readAllData.observeAsState(listOf()).value
 
     var showDialog by remember { mutableStateOf(false) }
+    var showFrequency by remember { mutableStateOf(false) }
 
     Scaffold(
-    ){
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -72,10 +74,18 @@ fun CreateAlarmScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.padding(15.dp))
-            Text(text = "Crear Recordatorio", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = primaryColor)
+            Text(
+                text = "Crear Recordatorio",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = primaryColor
+            )
 
             Spacer(modifier = Modifier.padding(15.dp))
-            DropDownList(options = itemsPacient, value = patient.value, selectedOptionText = { patient.value = it })
+            DropDownList(
+                options = itemsPacient,
+                value = patient.value,
+                selectedOptionText = { patient.value = it })
 
             Spacer(modifier = Modifier.padding(15.dp))
             CustomTextFieldForm(
@@ -129,22 +139,30 @@ fun CreateAlarmScreen(
                     .padding(horizontal = 40.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Cancelar", onClick = {
-                    if (step.value == 0){
-                        goBack()
-                    } else {
-                        step.value -= 1
-                    }
-                })
+                CustomButton(
+                    containerColor = primaryColor,
+                    contentColor = whiteColor,
+                    text = "Cancelar",
+                    onClick = {
+                        if (step.value == 0) {
+                            goBack()
+                        } else {
+                            step.value -= 1
+                        }
+                    })
                 val btnText = if (step.value == 0) "Siguiente" else "Guardar"
-                CustomButton(containerColor = unfocusedColor, contentColor = whiteColor, text = btnText, onClick = {
-                    if (step.value == 1) {
-                        showSnackbar("Registro exitoso", SnackbarDuration.Short)
-                        onClickCreate()
-                    } else{
-                        step.value += 1
-                    }
-                })
+                CustomButton(
+                    containerColor = unfocusedColor,
+                    contentColor = whiteColor,
+                    text = btnText,
+                    onClick = {
+                        if (step.value == 1) {
+                            showSnackbar("Registro exitoso", SnackbarDuration.Short)
+                            onClickCreate()
+                        } else {
+                            step.value += 1
+                        }
+                    })
             }
             Spacer(modifier = Modifier.padding(15.dp))
         }
@@ -154,8 +172,24 @@ fun CreateAlarmScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.BottomEnd
             ) {
-                CustomDatePickerDialog(label = "Date Picker") {
+                DatePickerUI() {
                     showDialog = false
+                }
+            }
+        }
+
+        if (frecuence.value == "Intervalo de dias") {
+            showFrequency = true
+        }
+
+        if (showFrequency) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.BottomEnd
+            ) {
+                FrequencyPickerUI() {
+                    showFrequency = false
+                    frecuence.value = it
                 }
             }
         }
@@ -164,7 +198,7 @@ fun CreateAlarmScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDownList (options: List<PatientItem>, value: String, selectedOptionText: (String) -> Unit) {
+fun DropDownList(options: List<PatientItem>, value: String, selectedOptionText: (String) -> Unit) {
     val focusedColor: Color = MaterialTheme.colorScheme.onPrimary
     val unfocusedColor: Color = MaterialTheme.colorScheme.secondary
     val primaryColor: Color = MaterialTheme.colorScheme.primary
@@ -213,7 +247,7 @@ fun DropDownList (options: List<PatientItem>, value: String, selectedOptionText:
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDownList (value: String, selectedOptionText: (String) -> Unit) {
+fun DropDownList(value: String, selectedOptionText: (String) -> Unit) {
     val focusedColor: Color = MaterialTheme.colorScheme.onPrimary
     val unfocusedColor: Color = MaterialTheme.colorScheme.secondary
     val primaryColor: Color = MaterialTheme.colorScheme.primary
@@ -260,19 +294,9 @@ fun DropDownList (value: String, selectedOptionText: (String) -> Unit) {
     }
 }
 
-// spinner
-@Composable
-fun CustomDatePickerDialog(
-    label: String,
-    onDismissRequest: () -> Unit
-) {
-    DatePickerUI(label, onDismissRequest)
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerUI(
-    label: String,
     onDismissRequest: () -> Unit
 ) {
     Card(
@@ -287,6 +311,8 @@ fun DatePickerUI(
                 .fillMaxWidth()
                 .padding(vertical = 10.dp, horizontal = 5.dp)
         ) {
+
+            Spacer(modifier = Modifier.height(30.dp))
 
             var chosenHour = remember { mutableStateOf("") }
             val chosenMinutes = remember { mutableStateOf("") }
@@ -354,13 +380,13 @@ fun DateSelectionSection(
         InfiniteItemsPicker(
             items = minutes,
             firstIndex = Int.MAX_VALUE / 2,
-            onItemSelected =  onMinutesChosen
+            onItemSelected = onMinutesChosen
         )
 
         InfiniteItemsPicker(
             items = zone,
             firstIndex = Int.MAX_VALUE / 2,
-            onItemSelected =  onZoneChosen
+            onItemSelected = onZoneChosen
         )
     }
 }
@@ -408,6 +434,88 @@ fun InfiniteItemsPicker(
         )
     }
 }
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FrequencyPickerUI(
+    onDismissRequest: (String) -> Unit
+) {
+    val numbers = listOf(
+        Frecuency(1, "1"),
+        Frecuency(2, "2"),
+        Frecuency(3, "3"),
+        Frecuency(4, "4"),
+    )
+    val number = remember { mutableStateOf("") }
+
+    val frecuencies = listOf(
+        Frecuency(1, "Dias"),
+        Frecuency(2, "Semanas"),
+        Frecuency(3, "Meses"),
+    )
+    val frecuency = remember { mutableStateOf("") }
+
+    Card(
+        shape = RoundedCornerShape(0.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp, horizontal = 5.dp)
+        ) {
+            Spacer(modifier = Modifier.height(30.dp))
+
+            // content
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier
+                        .background(Color.Transparent)
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    com.ux.thecolab.ui.DropDownList(
+                        options = numbers,
+                        value = number.value,
+                        selectedOptionText = { number.value = it })
+
+                    com.ux.thecolab.ui.DropDownList(
+                        options = frecuencies,
+                        value = frecuency.value,
+                        selectedOptionText = { frecuency.value = it })
+                }
+            }
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            Button(
+                shape = RoundedCornerShape(5.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 10.dp),
+                onClick = {
+                    onDismissRequest("cada ${number.value} ${frecuency.value}")
+                }
+            ) {
+                Text(
+                    text = "Done",
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+    }
+}
+
 
 
 val hours = listOf("01", "02", "03", "04")
