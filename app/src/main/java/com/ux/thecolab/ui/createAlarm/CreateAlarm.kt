@@ -3,14 +3,11 @@ package com.ux.thecolab.ui.createAlarm
 import android.annotation.SuppressLint
 import android.app.Application
 import android.widget.Toast
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
@@ -32,7 +29,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ux.thecolab.data.PatientItem
 import com.ux.thecolab.data.PatientViewModel
 import com.ux.thecolab.data.PatientViewModelFactory
-import com.ux.thecolab.ui.Frecuency
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,6 +60,7 @@ fun CreateAlarmScreen(
 
     var showDialog by remember { mutableStateOf(false) }
     var showFrequency by remember { mutableStateOf(false) }
+    var showListDay by remember { mutableStateOf(false) }
 
     Scaffold(
     ) {
@@ -73,6 +70,7 @@ fun CreateAlarmScreen(
                 .verticalScroll(enabled = true, state = rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             Spacer(modifier = Modifier.padding(15.dp))
             Text(
                 text = "Crear Recordatorio",
@@ -80,56 +78,77 @@ fun CreateAlarmScreen(
                 fontWeight = FontWeight.Bold,
                 color = primaryColor
             )
-
             Spacer(modifier = Modifier.padding(15.dp))
-            DropDownList(
-                options = itemsPacient,
-                value = patient.value,
-                selectedOptionText = { patient.value = it })
+            if (step.value == 0) {
+                DropDownList(
+                    options = itemsPacient,
+                    value = patient.value,
+                    selectedOptionText = { patient.value = it })
 
-            Spacer(modifier = Modifier.padding(15.dp))
-            CustomTextFieldForm(
-                unfocusedColor = unfocusedColor,
-                focusedColor = focusedColor,
-                primaryColor = primaryColor,
-                text = "Nombre del medicamento",
-                value = name.value,
-                onValueChange = { name.value = it },
-            )
+                Spacer(modifier = Modifier.padding(15.dp))
+                CustomTextFieldForm(
+                    unfocusedColor = unfocusedColor,
+                    focusedColor = focusedColor,
+                    primaryColor = primaryColor,
+                    text = "Nombre del medicamento",
+                    value = name.value,
+                    onValueChange = { name.value = it },
+                )
 
-            Spacer(modifier = Modifier.padding(15.dp))
-            DropDownList(value = frecuence.value, selectedOptionText = { frecuence.value = it })
+                Spacer(modifier = Modifier.padding(15.dp))
+                DropDownList(value = frecuence.value, selectedOptionText = { frecuence.value = it })
 
-            Spacer(modifier = Modifier.padding(15.dp))
-            var name by remember { mutableStateOf("") }
-            OutlinedTextField(
-                value = name,
-                onValueChange = { name = it },
-                label = { Text("Hora") },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    unfocusedBorderColor = unfocusedColor,
-                    unfocusedLabelColor = unfocusedColor,
-                    focusedBorderColor = focusedColor,
-                    focusedLabelColor = focusedColor,
-                    textColor = primaryColor,
-                    disabledTextColor = primaryColor,
-                    disabledBorderColor = unfocusedColor,
-                    disabledLabelColor = unfocusedColor
-                ),
-                readOnly = true,
-                modifier = Modifier.clickable { showDialog = true },
-                enabled = false
-            )
+                Spacer(modifier = Modifier.padding(15.dp))
 
-            Spacer(modifier = Modifier.padding(15.dp))
-            CustomTextFieldForm(
-                unfocusedColor = unfocusedColor,
-                focusedColor = focusedColor,
-                primaryColor = primaryColor,
-                text = "Número de contacto",
-                value = contact.value,
-                onValueChange = { contact.value = it },
-            )
+                OutlinedTextField(
+                    value = hour.value,
+                    onValueChange = {  },
+                    label = { Text("Hora") },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        unfocusedBorderColor = unfocusedColor,
+                        unfocusedLabelColor = unfocusedColor,
+                        focusedBorderColor = focusedColor,
+                        focusedLabelColor = focusedColor,
+                        textColor = primaryColor,
+                        disabledTextColor = primaryColor,
+                        disabledBorderColor = unfocusedColor,
+                        disabledLabelColor = unfocusedColor
+                    ),
+                    readOnly = true,
+                    modifier = Modifier.clickable { showDialog = true },
+                    enabled = false
+                )
+
+                Spacer(modifier = Modifier.padding(15.dp))
+                CustomTextFieldForm(
+                    unfocusedColor = unfocusedColor,
+                    focusedColor = focusedColor,
+                    primaryColor = primaryColor,
+                    text = "Número de contacto",
+                    value = contact.value,
+                    onValueChange = { contact.value = it },
+                )
+            }
+
+            // step 2
+            if (step.value == 1) {
+                Text(text = "Foto medicamento")
+                Card(modifier = Modifier
+                    .padding(39.dp, 10.dp)
+                    .border(1.dp, MaterialTheme.colorScheme.primary),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                    ), content = {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(24.dp)
+                        ) {
+
+                        }
+                    }
+                )
+            }
 
             Spacer(modifier = Modifier.padding(15.dp))
             Row(
@@ -174,6 +193,7 @@ fun CreateAlarmScreen(
             ) {
                 DatePickerUI() {
                     showDialog = false
+                    hour.value = it
                 }
             }
         }
@@ -189,6 +209,22 @@ fun CreateAlarmScreen(
             ) {
                 FrequencyPickerUI() {
                     showFrequency = false
+                    frecuence.value = it
+                }
+            }
+        }
+
+        if (frecuence.value == "Dias especificos") {
+            showListDay = true
+        }
+
+        if (showListDay) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.BottomEnd
+            ) {
+                CheckboxListExample(primaryColor, whiteColor) {
+                    showListDay = false
                     frecuence.value = it
                 }
             }
@@ -297,7 +333,7 @@ fun DropDownList(value: String, selectedOptionText: (String) -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerUI(
-    onDismissRequest: () -> Unit
+    onDismissRequest: (String) -> Unit
 ) {
     Card(
         shape = RoundedCornerShape(0.dp),
@@ -327,9 +363,11 @@ fun DatePickerUI(
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                IconButton(onClick = { onDismissRequest() }, colors = IconButtonDefaults.iconButtonColors(
-                    contentColor = primaryColor
-                )) {
+                IconButton(
+                    onClick = { onDismissRequest("") }, colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = primaryColor
+                    )
+                ) {
                     Icon(
                         imageVector = Icons.Filled.Close,
                         contentDescription = "",
@@ -339,8 +377,9 @@ fun DatePickerUI(
                 val context = LocalContext.current
                 CustomButton(
                     containerColor = primaryColor, contentColor = whiteColor, text = "Listo",
-                    onClick = { Toast.makeText(context, "${chosenZone.value}-${chosenMinutes.value}-${chosenHour.value}", Toast.LENGTH_SHORT).show()
-                        onDismissRequest() }
+                    onClick = {
+                        onDismissRequest("${chosenHour.value}: ${chosenMinutes.value} ${chosenZone.value}")
+                    }
                 )
             }
 
@@ -419,7 +458,7 @@ fun InfiniteItemsPicker(
                     }
 
                     Spacer(modifier = Modifier.height(10.dp))
-                    Divider(color = MaterialTheme.colorScheme.primary, thickness = 1.dp)
+//                    Divider(color = MaterialTheme.colorScheme.primary, thickness = 1.dp)
 
                     Text(
                         text = items[index],
@@ -427,7 +466,7 @@ fun InfiniteItemsPicker(
                         textAlign = TextAlign.Center
                     )
 
-                    Divider(color = MaterialTheme.colorScheme.primary, thickness = 1.dp)
+//                    Divider(color = MaterialTheme.colorScheme.primary, thickness = 1.dp)
                     Spacer(modifier = Modifier.height(10.dp))
                 })
             }
@@ -470,6 +509,38 @@ fun FrequencyPickerUI(
         ) {
             Spacer(modifier = Modifier.height(30.dp))
 
+            Row(
+                modifier = Modifier
+                    .background(Color.Transparent)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                IconButton(
+                    onClick = { onDismissRequest("cada ${number.value} ${frecuency.value}") },
+                    colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Close,
+                        contentDescription = "",
+                    )
+                }
+
+                val context = LocalContext.current
+                CustomButton(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onSecondary,
+                    text = "Listo",
+                    onClick = {
+                        onDismissRequest("cada ${number.value} ${frecuency.value}")
+                    }
+                )
+            }
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+
             // content
 
             Column(
@@ -483,39 +554,199 @@ fun FrequencyPickerUI(
                         .padding(horizontal = 16.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    com.ux.thecolab.ui.DropDownList(
+                    DropDownListFrequency(
                         options = numbers,
                         value = number.value,
-                        selectedOptionText = { number.value = it })
+                        selectedOptionText = { number.value = it },
+                        label = "Número"
+                    )
 
-                    com.ux.thecolab.ui.DropDownList(
+                    DropDownListFrequency(
                         options = frecuencies,
                         value = frecuency.value,
-                        selectedOptionText = { frecuency.value = it })
+                        selectedOptionText = { frecuency.value = it },
+                        label = "Frecuencia"
+                    )
                 }
             }
 
             Spacer(modifier = Modifier.height(30.dp))
+        }
+    }
+}
 
-            Button(
-                shape = RoundedCornerShape(5.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp),
-                onClick = {
-                    onDismissRequest("cada ${number.value} ${frecuency.value}")
-                }
-            ) {
-                Text(
-                    text = "Done",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
+data class Frecuency(val itemid: Int, val itemName: String)
+
+// selects frecuencia
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DropDownListFrequency(
+    options: List<Frecuency>,
+    value: String,
+    selectedOptionText: (String) -> Unit,
+    label: String
+) {
+    val focusedColor: Color = MaterialTheme.colorScheme.onPrimary
+    val unfocusedColor: Color = MaterialTheme.colorScheme.secondary
+    val primaryColor: Color = MaterialTheme.colorScheme.primary
+
+    var expanded by remember { mutableStateOf(false) }
+
+// We want to react on tap/press on TextField to show menu
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded },
+        modifier = Modifier.width(150.dp)
+    ) {
+        OutlinedTextField(
+            // The `menuAnchor` modifier must be passed to the text field for correctness.
+//            modifier = Modifier.menuAnchor(),
+            readOnly = true,
+            value = value,
+            onValueChange = {},
+            label = { Text(label) },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                unfocusedBorderColor = unfocusedColor,
+                unfocusedLabelColor = unfocusedColor,
+                focusedBorderColor = focusedColor,
+                focusedLabelColor = focusedColor,
+                textColor = primaryColor
+            )
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+        ) {
+            options.forEach { selectionOption ->
+                DropdownMenuItem(
+                    text = { Text(selectionOption.itemName) },
+                    onClick = {
+                        selectedOptionText(selectionOption.itemName)
+                        expanded = false
+                    },
+//                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                 )
             }
         }
     }
 }
 
+@Composable
+fun CheckboxListExample(
+    primaryColor: Color,
+    whiteColor: Color,
+    onDismissRequest: (String) -> Unit
+) {
+    var itemsDays =
+        arrayOf("Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo")
+
+    val options = itemsDays.map {
+        val checked = remember { mutableStateOf(false) }
+        Option(
+            checked = checked.value,
+            onCheckedChange = { checked.value = it },
+            label = it,
+        )
+    }
+
+    LabelledCheckbox(options = options, primaryColor = primaryColor, whiteColor = whiteColor, onDismissRequest = {
+        onDismissRequest("Lunes, Jueves")
+    })
+}
+
+data class Option(
+    var checked: Boolean,
+    var onCheckedChange: (Boolean) -> Unit = {},
+    val label: String
+)
+
+// lista checkbox
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LabelledCheckbox(
+    options: List<Option>,
+    primaryColor: Color,
+    whiteColor: Color,
+    onDismissRequest: () -> Unit
+) {
+    Card(
+        shape = RoundedCornerShape(0.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp, horizontal = 5.dp)
+        ) {
+            Spacer(modifier = Modifier.height(30.dp))
+
+            Row(
+                modifier = Modifier
+                    .background(Color.Transparent)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                IconButton(
+                    onClick = { onDismissRequest() }, colors = IconButtonDefaults.iconButtonColors(
+                        contentColor = MaterialTheme.colorScheme.primary
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Close,
+                        contentDescription = "",
+                    )
+                }
+
+                val context = LocalContext.current
+                CustomButton(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onSecondary,
+                    text = "Listo",
+                    onClick = { onDismissRequest() }
+                )
+            }
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+
+            Column() {
+                options.forEach { option ->
+                    Row(
+                        modifier = Modifier
+                            .background(Color.Transparent)
+                            .fillMaxWidth()
+                            .height(56.dp)
+                            .padding(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = option.label,
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontSize = 14.sp,
+                            color = primaryColor,
+                            fontWeight = FontWeight.Normal
+                        )
+
+                        Checkbox(
+                            checked = option.checked,
+                            onCheckedChange = option.onCheckedChange,
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = primaryColor,
+                                checkmarkColor = whiteColor
+                            )
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(30.dp))
+        }
+    }
+}
 
 
 val hours = listOf("01", "02", "03", "04")
