@@ -3,6 +3,8 @@ package com.ux.thecolab.ui
 import android.annotation.SuppressLint
 import android.app.Application
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -17,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ux.thecolab.components.CustomFloatCreate
-import com.ux.thecolab.components.CustomHeader
 import com.ux.thecolab.data.PatientViewModel
 import com.ux.thecolab.data.PatientViewModelFactory
 import androidx.compose.runtime.livedata.observeAsState
@@ -43,18 +44,20 @@ fun PatientsListScreen(
 
     Scaffold(
         floatingActionButton = {
-            CustomFloatCreate(containerColor = onTertiaryColor, contentColor = whiteColor, onClick = onClickCreate)
+            CustomFloatCreate(
+                containerColor = onTertiaryColor,
+                contentColor = whiteColor,
+                onClick = onClickCreate
+            )
         },
         floatingActionButtonPosition = FabPosition.End
-    ){
+    ) {
         LazyColumn(
-            modifier = Modifier.fillMaxHeight()
+            modifier = Modifier
+                .fillMaxHeight()
+                .background(MaterialTheme.colorScheme.onSecondary)
         ) {
-            stickyHeader {
-                CustomHeader(fontColor = whiteColor, backgroundColor = primaryColor, text = "THE COLAB")
-            }
-            if (itemsPacient.isEmpty())
-            {
+            if (itemsPacient.isEmpty()) {
 
                 item {
                     Column(
@@ -64,15 +67,40 @@ fun PatientsListScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Spacer(modifier = Modifier.padding(15.dp))
-                        Text(text = "Pacientes", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = primaryColor)
+                        Text(
+                            text = "Pacientes",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = primaryColor
+                        )
 
                         Spacer(modifier = Modifier.padding(10.dp))
-                        Text(text = "No tienes pacientes creados", fontSize = 14.sp, fontWeight = FontWeight.Normal, color = tertiaryColor)
+                        Text(
+                            text = "No tienes pacientes creados",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Normal,
+                            color = tertiaryColor
+                        )
                     }
                 }
             } else {
-                items(itemsPacient) {
-                        item -> Text(text = item.itemName)
+                items(itemsPacient) { item ->
+                    Card(modifier = Modifier
+                        .padding(39.dp, 10.dp)
+                        .border(1.dp, MaterialTheme.colorScheme.primary),
+                        colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.onSecondary,
+                    ), content = {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(24.dp)
+                        ) {
+                            Text(text = item.itemName, fontSize = 16.sp, color = MaterialTheme.colorScheme.tertiary)
+                            Spacer(modifier = Modifier.padding(5.dp))
+                            Text(text = item.illness, fontSize = 16.sp, color = MaterialTheme.colorScheme.tertiary)
+                        }
+                    })
                 }
             }
         }
@@ -80,4 +108,3 @@ fun PatientsListScreen(
 
 
 }
-

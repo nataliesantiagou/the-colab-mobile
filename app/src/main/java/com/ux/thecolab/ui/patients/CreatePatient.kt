@@ -30,6 +30,7 @@ import com.ux.thecolab.data.PatientViewModelFactory
 @Composable
 fun CreatePatientScreen(
     onClickCreate: () -> Unit = {},
+    goBack: () -> Unit = {},
     showSnackbar: (String, SnackbarDuration) -> Unit,
 ) {
     val primaryColor: Color = MaterialTheme.colorScheme.primary
@@ -54,7 +55,7 @@ fun CreatePatientScreen(
                     .padding(horizontal = 40.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Cancelar")
+                CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Cancelar", onClick = { goBack() })
                 CustomButton(containerColor = unfocusedColor, contentColor = whiteColor, text = "Guardar", onClick = {
                     insertPatientInDB(name.value, illness.value, mPatientViewModel)
                     showSnackbar("Registro exitoso", SnackbarDuration.Short)
@@ -67,10 +68,6 @@ fun CreatePatientScreen(
         LazyColumn(
             modifier = Modifier.fillMaxHeight()
         ) {
-            stickyHeader {
-                CustomHeader(fontColor = whiteColor, backgroundColor = primaryColor, text = "THE COLAB")
-            }
-
             item {
                 Column(
                     modifier = Modifier

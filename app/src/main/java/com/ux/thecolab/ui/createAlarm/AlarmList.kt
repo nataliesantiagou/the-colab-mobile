@@ -12,9 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ux.thecolab.components.ColabBottomNavigation
 import com.ux.thecolab.components.CustomFloatCreate
-import com.ux.thecolab.components.CustomHeader
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
@@ -36,10 +34,6 @@ fun AlarmListScreen(
         LazyColumn(
             modifier = Modifier.fillMaxHeight()
         ) {
-            stickyHeader {
-                CustomHeader(fontColor = whiteColor, backgroundColor = primaryColor, text = "THE COLAB")
-            }
-
             item {
                 Column(
                     modifier = Modifier

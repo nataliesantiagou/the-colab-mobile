@@ -38,6 +38,9 @@ fun ListNavHost(
                 onClickCreate = {
                     navController.navigate(route = PatientsList.route)
                 },
+                goBack = {
+                    navController.popBackStack()
+                },
                 showSnackbar = showSnackbar
             )
         }
