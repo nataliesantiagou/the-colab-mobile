@@ -25,6 +25,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(navControllerRoot: NavHostController) {
     val navController = rememberNavController()
+
     val currentBackStack by navController.currentBackStackEntryAsState()
     val currentDestination = currentBackStack?.destination
     val currentScreen =

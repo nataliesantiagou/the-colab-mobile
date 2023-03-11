@@ -1,6 +1,7 @@
 package com.ux.thecolab.ui.createAlarm
 
 import android.annotation.SuppressLint
+import android.app.Application
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -14,6 +15,12 @@ import androidx.compose.ui.unit.sp
 import com.ux.thecolab.components.CustomButton
 import com.ux.thecolab.components.CustomTextFieldForm
 import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ux.thecolab.data.PatientItem
+import com.ux.thecolab.data.PatientViewModel
+import com.ux.thecolab.data.PatientViewModelFactory
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,6 +39,13 @@ fun CreateAlarmScreen(
     val illness = remember { mutableStateOf("") }
 
     var step =  remember { mutableStateOf(0) };
+
+    val context = LocalContext.current
+    val mPatientViewModel: PatientViewModel = viewModel(
+        factory = PatientViewModelFactory(context.applicationContext as Application)
+    )
+
+    val itemsPacient = mPatientViewModel.readAllData.observeAsState(listOf()).value
 
     Scaffold(
         floatingActionButton = {
@@ -71,7 +85,7 @@ fun CreateAlarmScreen(
             Text(text = "Crear Recordatorio", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = primaryColor)
 
             Spacer(modifier = Modifier.padding(15.dp))
-            DropDownList()
+            DropDownList(itemsPacient)
 
             Spacer(modifier = Modifier.padding(15.dp))
             CustomTextFieldForm(
@@ -98,10 +112,10 @@ fun CreateAlarmScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDownList () {
-    val options = listOf("Option 1", "Option 2", "Option 3", "Option 4", "Option 5")
+fun DropDownList (options: List<PatientItem>) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf(options[0]) }
+    var selectedOptionText by remember { mutableStateOf("") }
+
 // We want to react on tap/press on TextField to show menu
     ExposedDropdownMenuBox(
         expanded = expanded,
@@ -123,9 +137,9 @@ fun DropDownList () {
         ) {
             options.forEach { selectionOption ->
                 DropdownMenuItem(
-                    text = { Text(selectionOption) },
+                    text = { Text(selectionOption.itemName) },
                     onClick = {
-                        selectedOptionText = selectionOption
+                        selectedOptionText = selectionOption.itemName
                         expanded = false
                     },
 //                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,

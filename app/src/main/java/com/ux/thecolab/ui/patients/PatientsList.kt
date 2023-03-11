@@ -31,11 +31,11 @@ fun PatientsListScreen(
 ) {
 
     val context = LocalContext.current
-    val mTodoViewModel: PatientViewModel = viewModel(
+    val mPatientViewModel: PatientViewModel = viewModel(
         factory = PatientViewModelFactory(context.applicationContext as Application)
     )
 
-    val itemsPacient = mTodoViewModel.readAllData.observeAsState(listOf()).value
+    val itemsPacient = mPatientViewModel.readAllData.observeAsState(listOf()).value
 
     val primaryColor: Color = MaterialTheme.colorScheme.primary
     val whiteColor: Color = MaterialTheme.colorScheme.onSecondary
