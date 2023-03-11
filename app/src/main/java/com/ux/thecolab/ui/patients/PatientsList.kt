@@ -57,6 +57,22 @@ fun PatientsListScreen(
                 .fillMaxHeight()
                 .background(MaterialTheme.colorScheme.onSecondary)
         ) {
+
+            item {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Spacer(modifier = Modifier.padding(15.dp))
+                    Text(
+                        text = "Pacientes",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = primaryColor
+                    )
+                }
+            }
+
             if (itemsPacient.isEmpty()) {
 
                 item {
@@ -66,13 +82,6 @@ fun PatientsListScreen(
                             .fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Spacer(modifier = Modifier.padding(15.dp))
-                        Text(
-                            text = "Pacientes",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = primaryColor
-                        )
 
                         Spacer(modifier = Modifier.padding(10.dp))
                         Text(
@@ -84,6 +93,7 @@ fun PatientsListScreen(
                     }
                 }
             } else {
+
                 items(itemsPacient) { item ->
                     Card(modifier = Modifier
                         .padding(39.dp, 10.dp)

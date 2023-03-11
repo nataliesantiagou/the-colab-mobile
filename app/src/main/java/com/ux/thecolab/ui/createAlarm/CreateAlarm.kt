@@ -114,6 +114,10 @@ fun CreateAlarmScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropDownList (options: List<PatientItem>, value: String, selectedOptionText: (String) -> Unit) {
+    val focusedColor: Color = MaterialTheme.colorScheme.onPrimary
+    val unfocusedColor: Color = MaterialTheme.colorScheme.secondary
+    val primaryColor: Color = MaterialTheme.colorScheme.primary
+
     var expanded by remember { mutableStateOf(false) }
 
 // We want to react on tap/press on TextField to show menu
@@ -121,15 +125,21 @@ fun DropDownList (options: List<PatientItem>, value: String, selectedOptionText:
         expanded = expanded,
         onExpandedChange = { expanded = !expanded },
     ) {
-        TextField(
+        OutlinedTextField(
             // The `menuAnchor` modifier must be passed to the text field for correctness.
 //            modifier = Modifier.menuAnchor(),
             readOnly = true,
             value = value,
             onValueChange = {},
-            label = { Text("Label") },
+            label = { Text("Nombre del paciente") },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            colors = ExposedDropdownMenuDefaults.textFieldColors(),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                unfocusedBorderColor = unfocusedColor,
+                unfocusedLabelColor = unfocusedColor,
+                focusedBorderColor = focusedColor,
+                focusedLabelColor = focusedColor,
+                textColor = primaryColor
+            )
         )
         ExposedDropdownMenu(
             expanded = expanded,
