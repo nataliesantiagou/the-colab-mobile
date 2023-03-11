@@ -59,5 +59,11 @@ object Home : ColabDestination {
     override val label = "home"
 }
 
+object CreateAlarm : ColabDestination {
+    override val icon = Icons.Filled.Person
+    override val route = "create-alarm"
+    override val label = "create-alarm"
+}
+
 // Screens to be displayed in the top ColabTabRow
 val colabTabRowScreens = listOf(AlarmList, PatientsList)

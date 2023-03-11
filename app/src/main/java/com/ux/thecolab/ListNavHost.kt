@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import com.ux.thecolab.ui.AlarmListScreen
 import com.ux.thecolab.ui.CreatePatientScreen
 import com.ux.thecolab.ui.PatientsListScreen
+import com.ux.thecolab.ui.createAlarm.CreateAlarmScreen
 
 @Composable
 fun ListNavHost(
@@ -18,15 +19,16 @@ fun ListNavHost(
     showSnackbar: (String, SnackbarDuration) -> Unit
 ) {
     NavHost(
-        navController = navController,
-        startDestination = AlarmList.route,
-        modifier = modifier
+        navController = navController, startDestination = AlarmList.route, modifier = modifier
     ) {
         composable(route = AlarmList.route) {
             AlarmListScreen(onClickCreate = {
-                navControllerRoot.navigate(CreatePatient.route)
+                navController.navigate(CreateAlarm.route)
+            }, goPatient = {
+                navController.navigate(PatientsList.route)
             })
         }
+
         composable(route = PatientsList.route) {
             PatientsListScreen(onClickCreate = {
                 navController.navigate(CreatePatient.route)
@@ -34,15 +36,22 @@ fun ListNavHost(
         }
 
         composable(route = CreatePatient.route) {
-            CreatePatientScreen(
-                onClickCreate = {
-                    navController.navigate(route = PatientsList.route)
-                },
-                goBack = {
-                    navController.popBackStack()
-                },
-                showSnackbar = showSnackbar
+            CreatePatientScreen(onClickCreate = {
+                navController.navigate(route = PatientsList.route)
+            }, goBack = {
+                navController.popBackStack()
+            }, showSnackbar = showSnackbar
             )
         }
+
+        composable(route = CreateAlarm.route) {
+            CreateAlarmScreen(onClickCreate = {
+                navController.navigate(route = PatientsList.route)
+            }, goBack = {
+                navController.popBackStack()
+            }, showSnackbar = showSnackbar
+            )
+        }
+
     }
 }
