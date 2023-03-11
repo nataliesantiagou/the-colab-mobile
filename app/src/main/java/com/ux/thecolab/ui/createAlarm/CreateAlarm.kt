@@ -38,6 +38,8 @@ fun CreateAlarmScreen(
     val name = remember { mutableStateOf("") }
     val illness = remember { mutableStateOf("") }
     val patient = remember { mutableStateOf("") }
+    val hour = remember { mutableStateOf("") }
+    val contact = remember { mutableStateOf("") }
 
     var step =  remember { mutableStateOf(0) };
 
@@ -99,13 +101,26 @@ fun CreateAlarmScreen(
             )
 
             Spacer(modifier = Modifier.padding(15.dp))
+            DropDownList(options = itemsPacient, value = patient.value, selectedOptionText = { patient.value = it })
+
+            Spacer(modifier = Modifier.padding(15.dp))
             CustomTextFieldForm(
                 unfocusedColor = unfocusedColor,
                 focusedColor = focusedColor,
                 primaryColor = primaryColor,
-                text = "Enfermedad",
-                value = illness.value,
-                onValueChange = { illness.value = it },
+                text = "Hora",
+                value = hour.value,
+                onValueChange = { hour.value = it },
+            )
+
+            Spacer(modifier = Modifier.padding(15.dp))
+            CustomTextFieldForm(
+                unfocusedColor = unfocusedColor,
+                focusedColor = focusedColor,
+                primaryColor = primaryColor,
+                text = "Número de contacto",
+                value = contact.value,
+                onValueChange = { contact.value = it },
             )
         }
     }
