@@ -3,10 +3,7 @@ package com.ux.thecolab.ui
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,7 +21,7 @@ import com.ux.thecolab.components.CustomTextFieldPassword
 @Composable
 fun RegisterScreen(
     onClickRoot: () -> Unit = {},
-    onClickRegister: () -> Unit = {}
+    showSnackbar: (String, SnackbarDuration) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -66,7 +63,7 @@ fun RegisterScreen(
             val snackScope = rememberCoroutineScope()
             SnackbarHost(hostState = snackState, Modifier)
             Spacer(modifier = Modifier.padding(15.dp))
-            CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Crear cuenta", onClick = { onClickRoot()
+            CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Crear cuenta", onClick = { showSnackbar("Registro exitoso", SnackbarDuration.Short); onClickRoot()
             })
 
             Spacer(modifier = Modifier.padding(5.dp))
