@@ -33,6 +33,11 @@ fun HomeScreen(navControllerRoot: NavHostController) {
     val btnBar = remember {
         mutableStateOf(true)
     }
+
+    val visibleTopBar = remember {
+        mutableStateOf(true)
+    }
+
     val alarmCreated = remember {
         mutableStateOf(true)
     }
@@ -73,33 +78,35 @@ fun HomeScreen(navControllerRoot: NavHostController) {
             }
         },
         topBar = {
-            CenterAlignedTopAppBar(
-                colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
-                ),
-                title = {
-                    Text(
-                        "THE COLAB",
-                        maxLines = 1,
-                        fontSize = 16.sp,
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.onSecondary,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                },
-                navigationIcon = {
-                    if (CreatePatient.route == currentDestination?.route || CreateAlarm.route == currentDestination?.route) {
-                        IconButton(onClick = { navController.popBackStack() }, colors = IconButtonDefaults.iconButtonColors(
-                            contentColor = MaterialTheme.colorScheme.onSecondary
-                        )) {
-                            Icon(
-                                imageVector = Icons.Filled.ArrowBack,
-                                contentDescription = "Localized description",
-                            )
+            if (visibleTopBar.value) {
+                CenterAlignedTopAppBar(
+                    colors = TopAppBarDefaults.mediumTopAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
+                    ),
+                    title = {
+                        Text(
+                            "THE COLAB",
+                            maxLines = 1,
+                            fontSize = 16.sp,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.onSecondary,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    },
+                    navigationIcon = {
+                        if (CreatePatient.route == currentDestination?.route || CreateAlarm.route == currentDestination?.route) {
+                            IconButton(onClick = { navController.popBackStack() }, colors = IconButtonDefaults.iconButtonColors(
+                                contentColor = MaterialTheme.colorScheme.onSecondary
+                            )) {
+                                Icon(
+                                    imageVector = Icons.Filled.ArrowBack,
+                                    contentDescription = "Localized description",
+                                )
+                            }
                         }
                     }
-                }
-            )
+                )
+            }
         },
     ) { innerPadding ->
         ListNavHost(
@@ -118,6 +125,9 @@ fun HomeScreen(navControllerRoot: NavHostController) {
             },
             isAlarmCreated = {
                 alarmCreated.value = it
+            },
+            toggleVisibleTopBar = {
+                visibleTopBar.value = false
             }
         )
 

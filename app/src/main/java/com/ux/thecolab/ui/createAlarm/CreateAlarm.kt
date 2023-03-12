@@ -4,11 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -22,7 +17,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ux.thecolab.components.*
 import com.ux.thecolab.R
@@ -38,6 +32,7 @@ fun CreateAlarmScreen(
     goBack: () -> Unit = {},
     showSnackbar: (String, SnackbarDuration) -> Unit,
     toggleBar: (Boolean) -> Unit = {},
+    toggleVisibleTopBar: (Boolean) -> Unit = {},
     isAlarmCreated: (Boolean) -> Unit = {}
 ) {
     val primaryColor: Color = MaterialTheme.colorScheme.primary
@@ -151,7 +146,9 @@ fun CreateAlarmScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(top = 50.dp, bottom = 70.dp)
-                                .clickable { step.value = 2 },
+                                .clickable { step.value = 2
+                                    toggleBar(false)
+                                    toggleVisibleTopBar(false)},
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
@@ -269,7 +266,10 @@ fun CreateAlarmScreen(
                     .fillMaxSize()
                     .background(color = Color.White)
             ) {
-                CustomFullPhoto(onClick = { step.value = 3 })
+                CustomFullPhoto(onClick = { step.value = 3
+                    toggleBar(true)
+                    toggleVisibleTopBar(true)
+                })
             }
         }
     }

@@ -17,6 +17,7 @@ fun ListNavHost(
     navControllerRoot: NavHostController,
     modifier: Modifier = Modifier,
     toggleBar: (Boolean) -> Unit,
+    toggleVisibleTopBar: (Boolean) -> Unit,
     showSnackbar: (String, SnackbarDuration) -> Unit,
     isAlarmCreated: (Boolean) -> Unit,
 ) {
@@ -53,6 +54,7 @@ fun ListNavHost(
                 navController.popBackStack()
             }, showSnackbar = showSnackbar,
                 toggleBar = toggleBar,
+                toggleVisibleTopBar = toggleVisibleTopBar,
                 isAlarmCreated = isAlarmCreated
             )
         }
