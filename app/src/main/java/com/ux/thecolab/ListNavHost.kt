@@ -11,6 +11,7 @@ import com.ux.thecolab.ui.AlarmListScreen
 import com.ux.thecolab.ui.CreatePatientScreen
 import com.ux.thecolab.ui.PatientsListScreen
 import com.ux.thecolab.ui.createAlarm.CreateAlarmScreen
+import com.ux.thecolab.ui.detailAlarm.DetailAlarmScreen
 
 @Composable
 fun ListNavHost(
@@ -32,7 +33,10 @@ fun ListNavHost(
             }, goPatient = {
                 navController.navigate(PatientsList.route)
             },
-                isAlarmCreated = isAlarmCreated)
+            isAlarmCreated = isAlarmCreated,
+            onClickEdit = {
+                navController.navigate(DetailAlarm.route)
+            })
         }
 
         composable(route = PatientsList.route) {
@@ -62,5 +66,8 @@ fun ListNavHost(
             )
         }
 
+        composable(route = DetailAlarm.route) {
+            DetailAlarmScreen()
+        }
     }
 }
