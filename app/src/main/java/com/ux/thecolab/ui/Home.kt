@@ -94,7 +94,7 @@ fun HomeScreen(navControllerRoot: NavHostController) {
                         )
                     },
                     navigationIcon = {
-                        if (CreatePatient.route == currentDestination?.route || CreateAlarm.route == currentDestination?.route) {
+                        if (CreatePatient.route == currentDestination?.route || CreateAlarm.route == currentDestination?.route || EditAlarm.route == currentDestination?.route || DetailAlarm.route == currentDestination?.route) {
                             IconButton(onClick = { navController.popBackStack() }, colors = IconButtonDefaults.iconButtonColors(
                                 contentColor = MaterialTheme.colorScheme.onSecondary
                             )) {
@@ -112,7 +112,6 @@ fun HomeScreen(navControllerRoot: NavHostController) {
         ListNavHost(
             navController = navController,
             modifier = Modifier.padding(innerPadding),
-            navControllerRoot = navControllerRoot,
             showSnackbar = { message, duration ->
                 scope.launch {
                     snackbarHostState.showSnackbar(

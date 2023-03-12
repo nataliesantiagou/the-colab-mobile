@@ -71,6 +71,12 @@ object DetailAlarm : ColabDestination {
     override val label = "detail-alarm"
 }
 
+object EditAlarm : ColabDestination {
+    override val icon = Icons.Filled.Person
+    override val route = "edit-alarm"
+    override val label = "edit-alarm"
+}
+
 object ShowAlarm : ColabDestination {
     override val icon = Icons.Filled.Person
     override val route = "show-alarm"

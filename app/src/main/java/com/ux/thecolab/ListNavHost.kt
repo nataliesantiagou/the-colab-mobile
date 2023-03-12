@@ -11,12 +11,12 @@ import com.ux.thecolab.ui.AlarmListScreen
 import com.ux.thecolab.ui.CreatePatientScreen
 import com.ux.thecolab.ui.PatientsListScreen
 import com.ux.thecolab.ui.createAlarm.CreateAlarmScreen
+import com.ux.thecolab.ui.createAlarm.EditAlarmScreen
 import com.ux.thecolab.ui.detailAlarm.DetailAlarmScreen
 
 @Composable
 fun ListNavHost(
     navController: NavHostController,
-    navControllerRoot: NavHostController,
     modifier: Modifier = Modifier,
     toggleBar: (Boolean) -> Unit,
     toggleVisibleTopBar: (Boolean) -> Unit,
@@ -66,8 +66,22 @@ fun ListNavHost(
             )
         }
 
+        composable(route = EditAlarm.route) {
+            EditAlarmScreen(onClickCreate = {
+                navController.navigate(route = AlarmList.route)
+            }, goBack = {
+                navController.popBackStack()
+            }, showSnackbar = showSnackbar,
+                toggleBar = toggleBar,
+                toggleVisibleTopBar = toggleVisibleTopBar,
+                togglelarmCreated = togglelarmCreated
+            )
+        }
+
         composable(route = DetailAlarm.route) {
-            DetailAlarmScreen()
+            DetailAlarmScreen(onClickEdit = {
+                navController.navigate(route = EditAlarm.route)
+            })
         }
     }
 }

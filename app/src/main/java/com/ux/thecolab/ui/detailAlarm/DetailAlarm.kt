@@ -23,7 +23,9 @@ import com.ux.thecolab.components.CustomFloatEdit
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailAlarmScreen() {
+fun DetailAlarmScreen(
+    onClickEdit : () -> Unit = {},
+) {
 
     val primaryColor: Color = MaterialTheme.colorScheme.primary
     val whiteColor: Color = MaterialTheme.colorScheme.onSecondary
@@ -32,9 +34,7 @@ fun DetailAlarmScreen() {
 
     Scaffold(
         floatingActionButton = {
-            CustomFloatEdit(containerColor = onTertiaryColor, contentColor = whiteColor, onClick = {
-
-            })
+            CustomFloatEdit(containerColor = onTertiaryColor, contentColor = whiteColor, onClick = onClickEdit)
         },
         floatingActionButtonPosition = FabPosition.End,
     ) {
