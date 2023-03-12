@@ -27,7 +27,7 @@ import com.ux.thecolab.data.PatientViewModelFactory
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateAlarmScreen(
+fun EditAlarmScreen(
     onClickCreate: () -> Unit = {},
     goBack: () -> Unit = {},
     showSnackbar: (String, SnackbarDuration) -> Unit,
@@ -40,11 +40,11 @@ fun CreateAlarmScreen(
     val unfocusedColor: Color = MaterialTheme.colorScheme.secondary
     val whiteColor: Color = MaterialTheme.colorScheme.onSecondary
 
-    val name = remember { mutableStateOf("") }
-    val frecuence = remember { mutableStateOf("") }
-    val patient = remember { mutableStateOf("") }
-    val hour = remember { mutableStateOf("") }
-    val contact = remember { mutableStateOf("") }
+    val name = remember { mutableStateOf("Omeprazol") }
+    val frecuence = remember { mutableStateOf("Cada 3 dias") }
+    val patient = remember { mutableStateOf("Maria Lara") }
+    val hour = remember { mutableStateOf("06:00 a.m") }
+    val contact = remember { mutableStateOf("0000000000") }
 
     var step = remember { mutableStateOf(0) };
 
@@ -70,7 +70,7 @@ fun CreateAlarmScreen(
 
             Spacer(modifier = Modifier.padding(15.dp))
             Text(
-                text = "Crear Recordatorio",
+                text = "Editar Recordatorio",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = primaryColor
@@ -134,44 +134,47 @@ fun CreateAlarmScreen(
             }
 
             // step 2
-            if (step.value == 1) {
-                Text(text = "Foto medicamento")
-                Card(modifier = Modifier
-                    .padding(39.dp, 10.dp)
-                    .border(1.dp, MaterialTheme.colorScheme.primary),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.background,
-                    ), content = {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 50.dp, bottom = 70.dp)
-                                .clickable { step.value = 2
-                                    toggleBar(false)
-                                    toggleVisibleTopBar(false)},
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            Text(text = "Tomar foto")
-                            Spacer(modifier = Modifier.padding(15.dp))
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_outline_camera_alt_24),
-                                contentDescription = "Localized description",
-                                modifier = Modifier.size(48.dp)
-                            )
-                        }
-                    }
-                )
+//            if (step.value == 1) {
+//                Text(text = "Foto medicamento")
+//                Card(modifier = Modifier
+//                    .padding(39.dp, 10.dp)
+//                    .border(1.dp, MaterialTheme.colorScheme.primary),
+//                    colors = CardDefaults.cardColors(
+//                        containerColor = MaterialTheme.colorScheme.background,
+//                    ), content = {
+//                        Column(
+//                            modifier = Modifier
+//                                .fillMaxWidth()
+//                                .padding(top = 50.dp, bottom = 70.dp)
+//                                .clickable { step.value = 2
+//                                    toggleBar(false)
+//                                    toggleVisibleTopBar(false)},
+//                            horizontalAlignment = Alignment.CenterHorizontally,
+//                            verticalArrangement = Arrangement.Center
+//                        ) {
+//                            Text(text = "Tomar foto")
+//                            Spacer(modifier = Modifier.padding(15.dp))
+//                            Icon(
+//                                painter = painterResource(id = R.drawable.ic_outline_camera_alt_24),
+//                                contentDescription = "Localized description",
+//                                modifier = Modifier.size(48.dp)
+//                            )
+//                        }
+//                    }
+//                )
+//
+//                Spacer(modifier = Modifier.padding(60.dp))
+//            }
 
-                Spacer(modifier = Modifier.padding(60.dp))
-            }
-
-            if (step.value == 3 || step.value == 4) {
+            if (step.value == 1 || step.value == 3 || step.value == 4) {
                 Image(
                     contentScale = ContentScale.FillWidth,
                     painter = painterResource(id = R.drawable.medicina),
                     contentDescription = null,
                     modifier = Modifier.padding(horizontal = 40.dp)
+                        .clickable { step.value = 2
+                                    toggleBar(false)
+                                    toggleVisibleTopBar(false)},
                 )
             }
 
@@ -192,9 +195,9 @@ fun CreateAlarmScreen(
                             goBack()
                         } else {
                             if (step.value == 3) {
+                                step.value -= 1
                                 toggleBar(false)
                                 toggleVisibleTopBar(false)
-                                step.value -= 1
                             } else if (step.value == 4) {
                                 step.value = 1
                             } else {
@@ -278,109 +281,6 @@ fun CreateAlarmScreen(
                     toggleBar(true)
                     toggleVisibleTopBar(true)
                 })
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DropDownList(options: List<PatientItem>, value: String, selectedOptionText: (String) -> Unit) {
-    val focusedColor: Color = MaterialTheme.colorScheme.onPrimary
-    val unfocusedColor: Color = MaterialTheme.colorScheme.secondary
-    val primaryColor: Color = MaterialTheme.colorScheme.primary
-
-    var expanded by remember { mutableStateOf(false) }
-
-// We want to react on tap/press on TextField to show menu
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = { expanded = !expanded },
-    ) {
-        OutlinedTextField(
-            // The `menuAnchor` modifier must be passed to the text field for correctness.
-//            modifier = Modifier.menuAnchor(),
-            readOnly = true,
-            value = value,
-            onValueChange = {},
-            label = { Text("Nombre del paciente") },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                unfocusedBorderColor = unfocusedColor,
-                unfocusedLabelColor = unfocusedColor,
-                focusedBorderColor = focusedColor,
-                focusedLabelColor = focusedColor,
-                textColor = primaryColor
-            )
-        )
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-        ) {
-            options.forEach { selectionOption ->
-                DropdownMenuItem(
-                    text = { Text(selectionOption.itemName) },
-                    onClick = {
-                        selectedOptionText(selectionOption.itemName)
-                        expanded = false
-                    },
-//                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                )
-            }
-        }
-    }
-}
-
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DropDownList(value: String, selectedOptionText: (String) -> Unit, toggleBar: (Boolean) -> Unit) {
-    val focusedColor: Color = MaterialTheme.colorScheme.onPrimary
-    val unfocusedColor: Color = MaterialTheme.colorScheme.secondary
-    val primaryColor: Color = MaterialTheme.colorScheme.primary
-
-    val options = listOf("Cada día", "Dias especificos", "Intervalo de dias")
-    var expanded by remember { mutableStateOf(false) }
-    val context = LocalContext.current
-// We want to react on tap/press on TextField to show menu
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = { expanded = !expanded },
-    ) {
-        OutlinedTextField(
-            // The `menuAnchor` modifier must be passed to the text field for correctness.
-//            modifier = Modifier.menuAnchor(),
-            readOnly = true,
-            value = value,
-            onValueChange = {
-
-            },
-            label = { Text("Frecuencia") },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                unfocusedBorderColor = unfocusedColor,
-                unfocusedLabelColor = unfocusedColor,
-                focusedBorderColor = focusedColor,
-                focusedLabelColor = focusedColor,
-                textColor = primaryColor
-            )
-        )
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-        ) {
-            options.forEach { selectionOption ->
-                DropdownMenuItem(
-                    text = { Text(selectionOption) },
-                    onClick = {
-                        if (selectionOption == "Dias especificos" || selectionOption == "Intervalo de dias") {
-                            toggleBar(false)
-                        }
-                        selectedOptionText(selectionOption)
-                        expanded = false
-                    },
-//                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                )
             }
         }
     }
