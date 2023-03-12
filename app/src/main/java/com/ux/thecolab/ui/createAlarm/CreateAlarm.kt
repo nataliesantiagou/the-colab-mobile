@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -62,6 +63,9 @@ fun CreateAlarmScreen(
     var showDialog by remember { mutableStateOf(false) }
     var showFrequency by remember { mutableStateOf(false) }
     var showListDay by remember { mutableStateOf(false) }
+
+    var showFullPhoto by remember { mutableStateOf(false) }
+    var showConfirmPhoto by remember { mutableStateOf(false) }
 
     Scaffold(
     ) {
@@ -143,7 +147,38 @@ fun CreateAlarmScreen(
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(top= 50.dp, bottom = 70.dp),
+                                .padding(top = 50.dp, bottom = 70.dp)
+                                .clickable { showFullPhoto = true },
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Text(text = "Tomar foto")
+                            Spacer(modifier = Modifier.padding(15.dp))
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_outline_camera_alt_24),
+                                contentDescription = "Localized description",
+                                modifier = Modifier.size(48.dp)
+                            )
+                        }
+                    }
+                )
+
+                Spacer(modifier = Modifier.padding(60.dp))
+            }
+
+            if (showConfirmPhoto) {
+                Text(text = "Foto medicamento1")
+                Card(modifier = Modifier
+                    .padding(39.dp, 10.dp)
+                    .border(1.dp, MaterialTheme.colorScheme.primary),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                    ), content = {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 50.dp, bottom = 70.dp)
+                                .clickable { showFullPhoto = true },
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
@@ -197,6 +232,7 @@ fun CreateAlarmScreen(
             Spacer(modifier = Modifier.padding(15.dp))
         }
 
+        // dialogos
         if (showDialog) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -238,6 +274,16 @@ fun CreateAlarmScreen(
                     showListDay = false
                     frecuence.value = it
                 }
+            }
+        }
+
+        if (showFullPhoto) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = Color.White)
+            ) {
+                CustomFullPhoto(onClick = { showConfirmPhoto = true })
             }
         }
     }
