@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -20,7 +19,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.ux.thecolab.components.*
 import com.ux.thecolab.R
-import com.ux.thecolab.data.PatientItem
 import com.ux.thecolab.data.PatientViewModel
 import com.ux.thecolab.data.PatientViewModelFactory
 
@@ -32,8 +30,7 @@ fun EditAlarmScreen(
     goBack: () -> Unit = {},
     showSnackbar: (String, SnackbarDuration) -> Unit,
     toggleBar: (Boolean) -> Unit = {},
-    toggleVisibleTopBar: (Boolean) -> Unit = {},
-    togglelarmCreated: (Boolean) -> Unit = {}
+    toggleVisibleTopBar: (Boolean) -> Unit = {}
 ) {
     val primaryColor: Color = MaterialTheme.colorScheme.primary
     val focusedColor: Color = MaterialTheme.colorScheme.onPrimary
@@ -214,7 +211,6 @@ fun EditAlarmScreen(
                         if (step.value == 1 || step.value == 4) {
                             showSnackbar("Registro exitoso", SnackbarDuration.Short)
                             onClickCreate()
-                            togglelarmCreated(true)
                         } else {
                             step.value += 1
                         }

@@ -73,8 +73,7 @@ fun ListNavHost(
                 navController.popBackStack()
             }, showSnackbar = showSnackbar,
                 toggleBar = toggleBar,
-                toggleVisibleTopBar = toggleVisibleTopBar,
-                togglelarmCreated = togglelarmCreated
+                toggleVisibleTopBar = toggleVisibleTopBar
             )
         }
 

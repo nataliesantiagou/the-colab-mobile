@@ -2,6 +2,8 @@ package com.ux.thecolab
 
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -15,6 +17,9 @@ fun ColabNavHost(
     modifier: Modifier = Modifier,
     showSnackbar: (String, SnackbarDuration) -> Unit
 ) {
+    val alarmCreated = remember {
+        mutableStateOf(false)
+    }
     NavHost(
         navController = navController,
         startDestination = Root.route,
@@ -49,7 +54,7 @@ fun ColabNavHost(
             )
         }
         composable(route = Home.route) {
-            HomeScreen(navControllerRoot = navController)
+            HomeScreen(navControllerRoot = navController, alarmCreated=alarmCreated)
         }
         composable(route = ShowAlarm.route) {
             ShowAlarmScreen(
