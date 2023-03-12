@@ -33,7 +33,6 @@ fun CreateAlarmScreen(
     showSnackbar: (String, SnackbarDuration) -> Unit,
     toggleBar: (Boolean) -> Unit = {},
     toggleVisibleTopBar: (Boolean) -> Unit = {},
-    isAlarmCreated: (Boolean) -> Unit = {},
     togglelarmCreated: (Boolean) -> Unit = {}
 ) {
     val primaryColor: Color = MaterialTheme.colorScheme.primary

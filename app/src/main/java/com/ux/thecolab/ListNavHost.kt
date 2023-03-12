@@ -58,7 +58,6 @@ fun ListNavHost(
             }, showSnackbar = showSnackbar,
                 toggleBar = toggleBar,
                 toggleVisibleTopBar = toggleVisibleTopBar,
-                isAlarmCreated = isAlarmCreated,
                 togglelarmCreated = togglelarmCreated
             )
         }
