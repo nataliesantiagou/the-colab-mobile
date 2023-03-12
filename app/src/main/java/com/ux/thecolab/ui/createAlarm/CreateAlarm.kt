@@ -37,7 +37,8 @@ fun CreateAlarmScreen(
     onClickCreate: () -> Unit = {},
     goBack: () -> Unit = {},
     showSnackbar: (String, SnackbarDuration) -> Unit,
-    toggleBar: (Boolean) -> Unit = {}
+    toggleBar: (Boolean) -> Unit = {},
+    isAlarmCreated: (Boolean) -> Unit = {}
 ) {
     val primaryColor: Color = MaterialTheme.colorScheme.primary
     val focusedColor: Color = MaterialTheme.colorScheme.onPrimary
@@ -62,9 +63,6 @@ fun CreateAlarmScreen(
     var showDialog by remember { mutableStateOf(false) }
     var showFrequency by remember { mutableStateOf(false) }
     var showListDay by remember { mutableStateOf(false) }
-
-    var showFullPhoto by remember { mutableStateOf(false) }
-    var showConfirmPhoto by remember { mutableStateOf(false) }
 
     Scaffold(
     ) {
@@ -153,7 +151,7 @@ fun CreateAlarmScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(top = 50.dp, bottom = 70.dp)
-                                .clickable { showFullPhoto = true },
+                                .clickable { step.value = 2 },
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
@@ -171,34 +169,13 @@ fun CreateAlarmScreen(
                 Spacer(modifier = Modifier.padding(60.dp))
             }
 
-            if (showConfirmPhoto) {
-                Text(text = "Foto medicamento1")
-                Card(modifier = Modifier
-                    .padding(39.dp, 10.dp)
-                    .border(1.dp, MaterialTheme.colorScheme.primary),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.background,
-                    ), content = {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 50.dp, bottom = 70.dp)
-                                .clickable { showFullPhoto = true },
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            Text(text = "Tomar foto")
-                            Spacer(modifier = Modifier.padding(15.dp))
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_outline_camera_alt_24),
-                                contentDescription = "Localized description",
-                                modifier = Modifier.size(48.dp)
-                            )
-                        }
-                    }
+            if (step.value == 3 || step.value == 4) {
+                Image(
+                    contentScale = ContentScale.FillWidth,
+                    painter = painterResource(id = R.drawable.medicina),
+                    contentDescription = null,
+                    modifier = Modifier.padding(horizontal = 40.dp)
                 )
-
-                Spacer(modifier = Modifier.padding(60.dp))
             }
 
             Spacer(modifier = Modifier.padding(15.dp))
@@ -220,15 +197,16 @@ fun CreateAlarmScreen(
                             step.value -= 1
                         }
                     })
-                val btnText = if (step.value == 0) "Siguiente" else "Guardar"
+                val btnText = if (step.value == 0) "Siguiente" else if (step.value == 3) "Confirmar" else "Guardar"
                 CustomButton(
                     containerColor = unfocusedColor,
                     contentColor = whiteColor,
                     text = btnText,
                     onClick = {
-                        if (step.value == 1) {
+                        if (step.value == 1 || step.value == 4) {
                             showSnackbar("Registro exitoso", SnackbarDuration.Short)
                             onClickCreate()
+                            isAlarmCreated(true)
                         } else {
                             step.value += 1
                         }
@@ -285,13 +263,13 @@ fun CreateAlarmScreen(
             }
         }
 
-        if (showFullPhoto) {
+        if (step.value == 2) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(color = Color.White)
             ) {
-                CustomFullPhoto(onClick = { showConfirmPhoto = true })
+                CustomFullPhoto(onClick = { step.value = 3 })
             }
         }
     }

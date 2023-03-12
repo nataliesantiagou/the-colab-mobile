@@ -17,7 +17,8 @@ fun ListNavHost(
     navControllerRoot: NavHostController,
     modifier: Modifier = Modifier,
     toggleBar: (Boolean) -> Unit,
-    showSnackbar: (String, SnackbarDuration) -> Unit
+    showSnackbar: (String, SnackbarDuration) -> Unit,
+    isAlarmCreated: (Boolean) -> Unit,
 ) {
     NavHost(
         navController = navController, startDestination = AlarmList.route, modifier = modifier
@@ -47,11 +48,12 @@ fun ListNavHost(
 
         composable(route = CreateAlarm.route) {
             CreateAlarmScreen(onClickCreate = {
-                navController.navigate(route = PatientsList.route)
+                navController.navigate(route = AlarmList.route)
             }, goBack = {
                 navController.popBackStack()
             }, showSnackbar = showSnackbar,
-                toggleBar = toggleBar
+                toggleBar = toggleBar,
+                isAlarmCreated = isAlarmCreated
             )
         }
 
