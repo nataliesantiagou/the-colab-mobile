@@ -9,7 +9,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,8 +26,10 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ux.thecolab.R
 import com.ux.thecolab.data.PatientItem
 import com.ux.thecolab.data.PatientViewModel
 import com.ux.thecolab.data.PatientViewModelFactory
@@ -142,12 +146,22 @@ fun CreateAlarmScreen(
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(24.dp)
+                                .padding(top= 50.dp, bottom = 70.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
                         ) {
-
+                            Text(text = "Tomar foto")
+                            Spacer(modifier = Modifier.padding(15.dp))
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_outline_camera_alt_24),
+                                contentDescription = "Localized description",
+                                modifier = Modifier.size(48.dp)
+                            )
                         }
                     }
                 )
+
+                Spacer(modifier = Modifier.padding(60.dp))
             }
 
             Spacer(modifier = Modifier.padding(15.dp))
