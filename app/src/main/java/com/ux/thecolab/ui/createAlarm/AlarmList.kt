@@ -31,7 +31,8 @@ import com.ux.thecolab.data.PatientViewModelFactory
 fun AlarmListScreen(
     onClickCreate: () -> Unit = {},
     goPatient: () -> Unit = {},
-    isAlarmCreated: MutableState<Boolean>
+    isAlarmCreated: MutableState<Boolean>,
+    onClickEdit: () -> Unit = {}
 ) {
     val primaryColor: Color = MaterialTheme.colorScheme.primary
     val whiteColor: Color = MaterialTheme.colorScheme.onSecondary
@@ -92,7 +93,8 @@ fun AlarmListScreen(
                                     Spacer(modifier = Modifier.padding(5.dp))
                                     Text(text = "Cada 3 dias", fontSize = 16.sp, color = MaterialTheme.colorScheme.tertiary)
                                 }
-                            })
+                            },
+                        onClick = { onClickEdit() })
                     } else {
                         Spacer(modifier = Modifier.padding(10.dp))
                         Text(text = "No tienes recordatorios creados", fontSize = 14.sp, fontWeight = FontWeight.Normal, color = tertiaryColor)
