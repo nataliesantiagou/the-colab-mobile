@@ -127,7 +127,7 @@ fun HomeScreen(navControllerRoot: NavHostController) {
                 alarmCreated.value = it
             },
             toggleVisibleTopBar = {
-                visibleTopBar.value = false
+                visibleTopBar.value = it
             }
         )
 
