@@ -8,9 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Face
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -39,6 +37,7 @@ fun CreateAlarmScreen(
     onClickCreate: () -> Unit = {},
     goBack: () -> Unit = {},
     showSnackbar: (String, SnackbarDuration) -> Unit,
+    toggleBar: (Boolean) -> Unit = {}
 ) {
     val primaryColor: Color = MaterialTheme.colorScheme.primary
     val focusedColor: Color = MaterialTheme.colorScheme.onPrimary
@@ -97,14 +96,15 @@ fun CreateAlarmScreen(
                     primaryColor = primaryColor,
                     text = "Nombre del medicamento",
                     value = name.value,
-                    onValueChange = { name.value = it },
+                    onValueChange = {
+                        name.value = it
+                    },
                 )
 
                 Spacer(modifier = Modifier.padding(15.dp))
-                DropDownList(value = frecuence.value, selectedOptionText = { frecuence.value = it })
+                DropDownList(value = frecuence.value, selectedOptionText = { frecuence.value = it }, toggleBar= toggleBar)
 
                 Spacer(modifier = Modifier.padding(15.dp))
-
                 OutlinedTextField(
                     value = hour.value,
                     onValueChange = {  },
@@ -120,7 +120,10 @@ fun CreateAlarmScreen(
                         disabledLabelColor = unfocusedColor
                     ),
                     readOnly = true,
-                    modifier = Modifier.clickable { showDialog = true },
+                    modifier = Modifier.clickable {
+                        showDialog = true
+                        toggleBar(false)
+                    },
                     enabled = false
                 )
 
@@ -131,7 +134,9 @@ fun CreateAlarmScreen(
                     primaryColor = primaryColor,
                     text = "Número de contacto",
                     value = contact.value,
-                    onValueChange = { contact.value = it },
+                    onValueChange = {
+                        contact.value = it
+                    },
                 )
             }
 
@@ -241,6 +246,7 @@ fun CreateAlarmScreen(
                 CustomSpinnerHour() {
                     showDialog = false
                     hour.value = it
+                    toggleBar(true)
                 }
             }
         }
@@ -257,6 +263,7 @@ fun CreateAlarmScreen(
                 FrequencyPickerUI() {
                     showFrequency = false
                     frecuence.value = it
+                    toggleBar(true)
                 }
             }
         }
@@ -273,6 +280,7 @@ fun CreateAlarmScreen(
                 CustomListDays(primaryColor, whiteColor) {
                     showListDay = false
                     frecuence.value = it
+                    toggleBar(true)
                 }
             }
         }
@@ -340,14 +348,14 @@ fun DropDownList(options: List<PatientItem>, value: String, selectedOptionText: 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropDownList(value: String, selectedOptionText: (String) -> Unit) {
+fun DropDownList(value: String, selectedOptionText: (String) -> Unit, toggleBar: (Boolean) -> Unit) {
     val focusedColor: Color = MaterialTheme.colorScheme.onPrimary
     val unfocusedColor: Color = MaterialTheme.colorScheme.secondary
     val primaryColor: Color = MaterialTheme.colorScheme.primary
 
     val options = listOf("Cada día", "Dias especificos", "Intervalo de dias")
     var expanded by remember { mutableStateOf(false) }
-
+    val context = LocalContext.current
 // We want to react on tap/press on TextField to show menu
     ExposedDropdownMenuBox(
         expanded = expanded,
@@ -358,7 +366,9 @@ fun DropDownList(value: String, selectedOptionText: (String) -> Unit) {
 //            modifier = Modifier.menuAnchor(),
             readOnly = true,
             value = value,
-            onValueChange = {},
+            onValueChange = {
+
+            },
             label = { Text("Frecuencia") },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -377,6 +387,9 @@ fun DropDownList(value: String, selectedOptionText: (String) -> Unit) {
                 DropdownMenuItem(
                     text = { Text(selectionOption) },
                     onClick = {
+                        if (selectionOption == "Dias especificos" || selectionOption == "Intervalo de dias") {
+                            toggleBar(false)
+                        }
                         selectedOptionText(selectionOption)
                         expanded = false
                     },

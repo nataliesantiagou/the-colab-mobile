@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.ux.thecolab.*
 import com.ux.thecolab.components.ColabBottomNavigation
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,6 +30,9 @@ fun HomeScreen(navControllerRoot: NavHostController) {
         colabTabRowScreens.find { it.route == currentDestination?.route } ?: AlarmList
 
     val snackbarHostState = remember { SnackbarHostState() }
+    val btnBar = remember {
+        mutableStateOf(true)
+    }
     val scope = rememberCoroutineScope()
 
     Scaffold(
@@ -39,7 +43,7 @@ fun HomeScreen(navControllerRoot: NavHostController) {
                 navController.navigate(newScreen.route)
             },
             currentScreen = currentScreen,
-            visible = true
+            visible = btnBar.value
         )
     },
         snackbarHost = {
@@ -105,6 +109,9 @@ fun HomeScreen(navControllerRoot: NavHostController) {
                         message = message, duration = duration, actionLabel = "Cerrar"
                     )
                 }
+            },
+            toggleBar = {
+                btnBar.value = it
             }
         )
 

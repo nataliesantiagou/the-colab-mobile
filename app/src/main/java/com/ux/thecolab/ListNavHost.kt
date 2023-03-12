@@ -16,6 +16,7 @@ fun ListNavHost(
     navController: NavHostController,
     navControllerRoot: NavHostController,
     modifier: Modifier = Modifier,
+    toggleBar: (Boolean) -> Unit,
     showSnackbar: (String, SnackbarDuration) -> Unit
 ) {
     NavHost(
@@ -49,7 +50,8 @@ fun ListNavHost(
                 navController.navigate(route = PatientsList.route)
             }, goBack = {
                 navController.popBackStack()
-            }, showSnackbar = showSnackbar
+            }, showSnackbar = showSnackbar,
+                toggleBar = toggleBar
             )
         }
 
