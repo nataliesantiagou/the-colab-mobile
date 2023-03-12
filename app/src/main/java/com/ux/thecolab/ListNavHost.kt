@@ -34,7 +34,7 @@ fun ListNavHost(
                 navController.navigate(PatientsList.route)
             },
             isAlarmCreated = isAlarmCreated,
-            onClickEdit = {
+            onClickDetail = {
                 navController.navigate(DetailAlarm.route)
             })
         }

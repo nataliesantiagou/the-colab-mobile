@@ -32,7 +32,7 @@ fun AlarmListScreen(
     onClickCreate: () -> Unit = {},
     goPatient: () -> Unit = {},
     isAlarmCreated: MutableState<Boolean>,
-    onClickEdit: () -> Unit = {}
+    onClickDetail: () -> Unit = {}
 ) {
     val primaryColor: Color = MaterialTheme.colorScheme.primary
     val whiteColor: Color = MaterialTheme.colorScheme.onSecondary
@@ -94,7 +94,7 @@ fun AlarmListScreen(
                                     Text(text = "Cada 3 dias", fontSize = 16.sp, color = MaterialTheme.colorScheme.tertiary)
                                 }
                             },
-                        onClick = { onClickEdit() })
+                        onClick = { onClickDetail() })
                     } else {
                         Spacer(modifier = Modifier.padding(10.dp))
                         Text(text = "No tienes recordatorios creados", fontSize = 14.sp, fontWeight = FontWeight.Normal, color = tertiaryColor)

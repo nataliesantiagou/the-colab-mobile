@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.ux.thecolab.ui.*
+import com.ux.thecolab.ui.showAlarm.ShowAlarmScreen
 
 @Composable
 fun ColabNavHost(
@@ -49,6 +50,13 @@ fun ColabNavHost(
         }
         composable(route = Home.route) {
             HomeScreen(navControllerRoot = navController)
+        }
+        composable(route = ShowAlarm.route) {
+            ShowAlarmScreen(
+                onClickClose = {
+                    navController.navigate(route = Home.route)
+                }
+            )
         }
     }
 }

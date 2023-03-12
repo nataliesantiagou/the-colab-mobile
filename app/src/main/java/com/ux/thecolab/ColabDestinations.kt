@@ -71,5 +71,11 @@ object DetailAlarm : ColabDestination {
     override val label = "detail-alarm"
 }
 
+object ShowAlarm : ColabDestination {
+    override val icon = Icons.Filled.Person
+    override val route = "show-alarm"
+    override val label = "show-alarm"
+}
+
 // Screens to be displayed in the top ColabTabRow
 val colabTabRowScreens = listOf(AlarmList, PatientsList)
