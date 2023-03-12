@@ -34,7 +34,7 @@ fun HomeScreen(navControllerRoot: NavHostController) {
         mutableStateOf(true)
     }
     val alarmCreated = remember {
-        mutableStateOf(true)
+        mutableStateOf(false)
     }
     val scope = rememberCoroutineScope()
 
@@ -116,7 +116,8 @@ fun HomeScreen(navControllerRoot: NavHostController) {
             toggleBar = {
                 btnBar.value = it
             },
-            isAlarmCreated = {
+            isAlarmCreated = alarmCreated,
+            togglelarmCreated = {
                 alarmCreated.value = it
             }
         )

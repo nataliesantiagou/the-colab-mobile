@@ -38,7 +38,7 @@ fun CreateAlarmScreen(
     goBack: () -> Unit = {},
     showSnackbar: (String, SnackbarDuration) -> Unit,
     toggleBar: (Boolean) -> Unit = {},
-    isAlarmCreated: (Boolean) -> Unit = {}
+    togglelarmCreated: (Boolean) -> Unit = {}
 ) {
     val primaryColor: Color = MaterialTheme.colorScheme.primary
     val focusedColor: Color = MaterialTheme.colorScheme.onPrimary
@@ -206,7 +206,7 @@ fun CreateAlarmScreen(
                         if (step.value == 1 || step.value == 4) {
                             showSnackbar("Registro exitoso", SnackbarDuration.Short)
                             onClickCreate()
-                            isAlarmCreated(true)
+                            togglelarmCreated(true)
                         } else {
                             step.value += 1
                         }

@@ -2,6 +2,7 @@ package com.ux.thecolab
 
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -18,7 +19,8 @@ fun ListNavHost(
     modifier: Modifier = Modifier,
     toggleBar: (Boolean) -> Unit,
     showSnackbar: (String, SnackbarDuration) -> Unit,
-    isAlarmCreated: (Boolean) -> Unit,
+    isAlarmCreated: MutableState<Boolean>,
+    togglelarmCreated: (Boolean) -> Unit,
 ) {
     NavHost(
         navController = navController, startDestination = AlarmList.route, modifier = modifier
@@ -28,7 +30,8 @@ fun ListNavHost(
                 navController.navigate(CreateAlarm.route)
             }, goPatient = {
                 navController.navigate(PatientsList.route)
-            })
+            },
+                isAlarmCreated = isAlarmCreated)
         }
 
         composable(route = PatientsList.route) {
@@ -53,7 +56,7 @@ fun ListNavHost(
                 navController.popBackStack()
             }, showSnackbar = showSnackbar,
                 toggleBar = toggleBar,
-                isAlarmCreated = isAlarmCreated
+                togglelarmCreated = togglelarmCreated
             )
         }
 

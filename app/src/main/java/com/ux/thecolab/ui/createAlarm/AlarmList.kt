@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
@@ -29,7 +30,8 @@ import com.ux.thecolab.data.PatientViewModelFactory
 @Composable
 fun AlarmListScreen(
     onClickCreate: () -> Unit = {},
-    goPatient: () -> Unit = {}
+    goPatient: () -> Unit = {},
+    isAlarmCreated: MutableState<Boolean>
 ) {
     val primaryColor: Color = MaterialTheme.colorScheme.primary
     val whiteColor: Color = MaterialTheme.colorScheme.onSecondary
@@ -70,8 +72,31 @@ fun AlarmListScreen(
                     Spacer(modifier = Modifier.padding(15.dp))
                     Text(text = "Recordatorios", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = primaryColor)
 
-                    Spacer(modifier = Modifier.padding(10.dp))
-                    Text(text = "No tienes recordatorios creados", fontSize = 14.sp, fontWeight = FontWeight.Normal, color = tertiaryColor)
+                    if (isAlarmCreated.value) {
+                        Card(modifier = Modifier
+                            .padding(39.dp, 10.dp)
+                            .border(1.dp, MaterialTheme.colorScheme.primary),
+                            colors = CardDefaults.cardColors(
+                                containerColor = Color.White,
+                            ), content = {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(24.dp)
+                                ) {
+                                    Text(text = "Maria Lara", fontSize = 16.sp, color = MaterialTheme.colorScheme.tertiary)
+                                    Spacer(modifier = Modifier.padding(5.dp))
+                                    Text(text = "Omeprazol", fontSize = 16.sp, color = MaterialTheme.colorScheme.tertiary)
+                                    Spacer(modifier = Modifier.padding(5.dp))
+                                    Text(text = "06:00 a.m.", fontSize = 16.sp, color = MaterialTheme.colorScheme.tertiary)
+                                    Spacer(modifier = Modifier.padding(5.dp))
+                                    Text(text = "Cada 3 dias", fontSize = 16.sp, color = MaterialTheme.colorScheme.tertiary)
+                                }
+                            })
+                    } else {
+                        Spacer(modifier = Modifier.padding(10.dp))
+                        Text(text = "No tienes recordatorios creados", fontSize = 14.sp, fontWeight = FontWeight.Normal, color = tertiaryColor)
+                    }
 
                 }
             }
