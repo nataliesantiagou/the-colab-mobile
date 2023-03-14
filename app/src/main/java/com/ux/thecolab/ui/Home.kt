@@ -15,13 +15,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.ux.thecolab.*
 import com.ux.thecolab.components.ColabBottomNavigation
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.log
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navControllerRoot: NavHostController) {
+fun HomeScreen(navControllerRoot: NavHostController, alarmCreated: MutableState<Boolean>) {
     val navController = rememberNavController()
 
     val currentBackStack by navController.currentBackStackEntryAsState()
@@ -38,9 +39,7 @@ fun HomeScreen(navControllerRoot: NavHostController) {
         mutableStateOf(true)
     }
 
-    val alarmCreated = remember {
-        mutableStateOf(false)
-    }
+
     val scope = rememberCoroutineScope()
 
     Scaffold(
@@ -125,6 +124,10 @@ fun HomeScreen(navControllerRoot: NavHostController) {
             isAlarmCreated = alarmCreated,
             togglelarmCreated = {
                 alarmCreated.value = it
+                scope.launch {
+                    delay(2000)
+                    navControllerRoot.navigate(ShowAlarm.route)
+                }
             },
             toggleVisibleTopBar = {
                 visibleTopBar.value = it
