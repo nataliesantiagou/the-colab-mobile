@@ -20,12 +20,15 @@ fun CustomFullPhoto(
 ) {
     Card(
         shape = RoundedCornerShape(0.dp),
-        modifier = Modifier.padding(start = 40.dp, top = 40.dp, end = 40.dp, bottom = 20.dp),
+        modifier = Modifier.padding(start = 40.dp, top = 40.dp, end = 40.dp)
+            .fillMaxSize(),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.background,
+            containerColor = MaterialTheme.colorScheme.background
         ), content = {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxSize()
             ) {
                 Image(
                     contentScale = ContentScale.FillWidth,

@@ -1,7 +1,9 @@
 package com.ux.thecolab.components
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 @Composable
@@ -12,7 +14,12 @@ fun CustomTextFieldForm (
     text: String,
     value: String,
     onValueChange : (String) -> Unit = {},
+    haveTooltip: Boolean = false
 ) {
+    var modify: Modifier = Modifier
+    if (!haveTooltip) {
+        modify = Modifier.fillMaxWidth()
+    }
     OutlinedTextField(
         value = value,
         onValueChange = { onValueChange(it) },
@@ -24,6 +31,6 @@ fun CustomTextFieldForm (
             focusedLabelColor = focusedColor,
             textColor = primaryColor
         ),
-
+        modifier = modify
     )
 }

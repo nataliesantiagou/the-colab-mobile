@@ -63,9 +63,10 @@ fun LabelledCheckbox(
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 10.dp, horizontal = 5.dp)
+                .padding(vertical = 10.dp, horizontal = 16.dp)
         ) {
             Spacer(modifier = Modifier.height(30.dp))
 
@@ -105,8 +106,9 @@ fun LabelledCheckbox(
                             .background(Color.Transparent)
                             .fillMaxWidth()
                             .height(56.dp)
-                            .padding(horizontal = 16.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                            .padding(start = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
                             text = option.label,

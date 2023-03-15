@@ -2,6 +2,7 @@ package com.ux.thecolab.ui.createAlarm
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -63,8 +64,10 @@ fun CreateAlarmScreen(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(enabled = true, state = rememberScrollState()),
+                .fillMaxSize()
+                .verticalScroll(enabled = true, state = rememberScrollState())
+                .padding(horizontal = 45.dp),
+            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -83,16 +86,34 @@ fun CreateAlarmScreen(
                     selectedOptionText = { patient.value = it })
 
                 Spacer(modifier = Modifier.padding(15.dp))
-                CustomTextFieldForm(
-                    unfocusedColor = unfocusedColor,
-                    focusedColor = focusedColor,
-                    primaryColor = primaryColor,
-                    text = "Nombre del medicamento",
-                    value = name.value,
-                    onValueChange = {
-                        name.value = it
-                    },
-                )
+
+                val context = LocalContext.current
+                Row(
+                    modifier = Modifier
+                    .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween) {
+                    CustomTextFieldForm(
+                        unfocusedColor = unfocusedColor,
+                        focusedColor = focusedColor,
+                        primaryColor = primaryColor,
+                        text = "Nombre del medicamento",
+                        value = name.value,
+                        onValueChange = {
+                            name.value = it
+                        },
+                        haveTooltip = true
+                    )
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_help_24),
+                        contentDescription = "",
+                        modifier = Modifier.size(25.dp)
+                            .clickable {
+                                       Toast.makeText(context, "Puedes ingresar más de un medicamento separado por coma", Toast.LENGTH_LONG).show()
+                            },
+                        tint = MaterialTheme.colorScheme.onTertiary
+                    )
+                }
+
 
                 Spacer(modifier = Modifier.padding(15.dp))
                 DropDownList(value = frecuence.value, selectedOptionText = { frecuence.value = it }, toggleBar= toggleBar)
@@ -113,10 +134,12 @@ fun CreateAlarmScreen(
                         disabledLabelColor = unfocusedColor
                     ),
                     readOnly = true,
-                    modifier = Modifier.clickable {
-                        showDialog = true
-                        toggleBar(false)
-                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            showDialog = true
+                            toggleBar(false)
+                        },
                     enabled = false
                 )
 
@@ -137,8 +160,9 @@ fun CreateAlarmScreen(
             if (step.value == 1) {
                 Text(text = "Foto medicamento")
                 Card(modifier = Modifier
-                    .padding(39.dp, 10.dp)
-                    .border(1.dp, MaterialTheme.colorScheme.primary),
+                    .padding(top = 40.dp, bottom = 40.dp)
+                    .border(1.dp, MaterialTheme.colorScheme.primary)
+                    .fillMaxWidth(),
                     colors = CardDefaults.cardColors(
                         containerColor = MaterialTheme.colorScheme.background,
                     ), content = {
@@ -146,9 +170,11 @@ fun CreateAlarmScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(top = 50.dp, bottom = 70.dp)
-                                .clickable { step.value = 2
+                                .clickable {
+                                    step.value = 2
                                     toggleBar(false)
-                                    toggleVisibleTopBar(false)},
+                                    toggleVisibleTopBar(false)
+                                },
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
@@ -179,8 +205,7 @@ fun CreateAlarmScreen(
             Row(
                 modifier = Modifier
                     .background(Color.Transparent)
-                    .fillMaxWidth()
-                    .padding(horizontal = 40.dp),
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 CustomButton(
@@ -311,7 +336,8 @@ fun DropDownList(options: List<PatientItem>, value: String, selectedOptionText: 
                 focusedBorderColor = focusedColor,
                 focusedLabelColor = focusedColor,
                 textColor = primaryColor
-            )
+            ),
+            modifier = Modifier.fillMaxWidth()
         )
         ExposedDropdownMenu(
             expanded = expanded,
@@ -363,7 +389,8 @@ fun DropDownList(value: String, selectedOptionText: (String) -> Unit, toggleBar:
                 focusedBorderColor = focusedColor,
                 focusedLabelColor = focusedColor,
                 textColor = primaryColor
-            )
+            ),
+            modifier = Modifier.fillMaxWidth()
         )
         ExposedDropdownMenu(
             expanded = expanded,

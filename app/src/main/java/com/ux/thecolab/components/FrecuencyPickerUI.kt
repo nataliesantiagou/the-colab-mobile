@@ -44,7 +44,7 @@ fun FrequencyPickerUI(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 10.dp, horizontal = 5.dp)
+                .padding(vertical = 10.dp, horizontal = 8.dp)
         ) {
             Spacer(modifier = Modifier.height(30.dp))
 
@@ -85,6 +85,7 @@ fun FrequencyPickerUI(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(horizontal = 8.dp)
             ) {
                 Row(
                     modifier = Modifier
@@ -134,7 +135,7 @@ fun DropDownListFrequency(
     ExposedDropdownMenuBox(
         expanded = expanded,
         onExpandedChange = { expanded = !expanded },
-        modifier = Modifier.width(165.dp)
+        modifier = Modifier.width(155.dp)
     ) {
         OutlinedTextField(
             // The `menuAnchor` modifier must be passed to the text field for correctness.
@@ -142,7 +143,7 @@ fun DropDownListFrequency(
             readOnly = true,
             value = value,
             onValueChange = {},
-            label = { Text(label,  fontSize = 14.sp) },
+            label = { Text(label,  fontSize = 12.sp) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 unfocusedBorderColor = unfocusedColor,

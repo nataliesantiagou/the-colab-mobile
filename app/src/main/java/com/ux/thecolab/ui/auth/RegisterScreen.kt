@@ -27,7 +27,7 @@ fun RegisterScreen(
         modifier = Modifier
             .fillMaxSize()
             .fillMaxHeight(),
-        contentAlignment = Alignment.TopCenter
+        contentAlignment = Alignment.Center
     ) {
         val focusedColor: Color = MaterialTheme.colorScheme.onPrimary
         val unfocusedColor: Color = MaterialTheme.colorScheme.secondary

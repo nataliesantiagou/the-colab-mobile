@@ -2,9 +2,11 @@ package com.ux.thecolab.ui
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
@@ -14,10 +16,12 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ux.thecolab.R
 import com.ux.thecolab.components.*
 import com.ux.thecolab.data.PatientItem
 import com.ux.thecolab.data.PatientViewModel
@@ -72,7 +76,8 @@ fun CreatePatientScreen(
                 Column(
                     modifier = Modifier
                         .fillParentMaxHeight()
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .padding(horizontal = 45.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Spacer(modifier = Modifier.padding(15.dp))
@@ -89,14 +94,31 @@ fun CreatePatientScreen(
                     )
 
                     Spacer(modifier = Modifier.padding(15.dp))
-                    CustomTextFieldForm(
-                        unfocusedColor = unfocusedColor,
-                        focusedColor = focusedColor,
-                        primaryColor = primaryColor,
-                        text = "Enfermedad",
-                        value = illness.value,
-                        onValueChange = { illness.value = it },
-                    )
+
+                    val context = LocalContext.current
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween) {
+                        CustomTextFieldForm(
+                            unfocusedColor = unfocusedColor,
+                            focusedColor = focusedColor,
+                            primaryColor = primaryColor,
+                            text = "Enfermedad",
+                            value = illness.value,
+                            onValueChange = { illness.value = it },
+                            haveTooltip = true
+                        )
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_help_24),
+                            contentDescription = "",
+                            modifier = Modifier.size(25.dp)
+                                .clickable {
+                                    Toast.makeText(context, "Puedes ingresar más de una enfermedad separadas por coma", Toast.LENGTH_LONG).show()
+                                },
+                            tint = MaterialTheme.colorScheme.onTertiary
+                        )
+                    }
                 }
             }
         }

@@ -60,9 +60,11 @@ fun EditAlarmScreen(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(enabled = true, state = rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize()
+                .verticalScroll(enabled = true, state = rememberScrollState())
+                .padding(horizontal = 45.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
 
             Spacer(modifier = Modifier.padding(15.dp))
@@ -110,7 +112,8 @@ fun EditAlarmScreen(
                         disabledLabelColor = unfocusedColor
                     ),
                     readOnly = true,
-                    modifier = Modifier.clickable {
+                    modifier = Modifier.fillMaxWidth()
+                        .clickable {
                         showDialog = true
                         toggleBar(false)
                     },
@@ -179,8 +182,7 @@ fun EditAlarmScreen(
             Row(
                 modifier = Modifier
                     .background(Color.Transparent)
-                    .fillMaxWidth()
-                    .padding(horizontal = 40.dp),
+                    .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 CustomButton(

@@ -29,7 +29,7 @@ fun RootScreen(
         modifier = Modifier
             .fillMaxSize()
             .fillMaxHeight(),
-        contentAlignment = Alignment.TopCenter
+        contentAlignment = Alignment.Center
     ) {
         val focusedColor: Color = MaterialTheme.colorScheme.onPrimary
         val unfocusedColor: Color = MaterialTheme.colorScheme.secondary
@@ -45,7 +45,6 @@ fun RootScreen(
                 .fillMaxHeight()
         )
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Spacer(modifier = Modifier.padding(40.dp))
             Text(text = "THE COLAB", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = primaryColor)
 
             Spacer(modifier = Modifier.padding(25.dp))

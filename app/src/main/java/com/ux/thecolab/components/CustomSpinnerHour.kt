@@ -35,7 +35,7 @@ fun CustomSpinnerHour(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 10.dp, horizontal = 5.dp)
+                .padding(vertical = 10.dp, horizontal = 16.dp)
         ) {
 
             Spacer(modifier = Modifier.height(30.dp))

@@ -28,7 +28,7 @@ fun ShowAlarmScreen(
         modifier = Modifier
             .fillMaxSize()
             .fillMaxHeight(),
-        contentAlignment = Alignment.TopCenter
+        contentAlignment = Alignment.Center
     ) {
         val primaryColor: Color = MaterialTheme.colorScheme.primary
         val whiteColor: Color = MaterialTheme.colorScheme.onSecondary
@@ -45,7 +45,6 @@ fun ShowAlarmScreen(
         )
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Spacer(modifier = Modifier.padding(35.dp))
             Text(text = "Suministrar Omeprazol", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = primaryColor)
 
             Spacer(modifier = Modifier.padding(30.dp))
