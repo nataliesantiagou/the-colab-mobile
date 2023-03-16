@@ -2,6 +2,7 @@ package com.ux.thecolab.ui.createAlarm
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -61,8 +62,7 @@ fun EditAlarmScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(enabled = true, state = rememberScrollState())
-                .padding(horizontal = 45.dp),
+                .verticalScroll(enabled = true, state = rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -76,95 +76,101 @@ fun EditAlarmScreen(
             )
             Spacer(modifier = Modifier.padding(15.dp))
             if (step.value == 0) {
-                DropDownList(
-                    options = itemsPacient,
-                    value = patient.value,
-                    selectedOptionText = { patient.value = it })
+                Row(modifier = Modifier.padding(horizontal = 45.dp)) {
+                    DropDownList(
+                        options = itemsPacient,
+                        value = patient.value,
+                        selectedOptionText = { patient.value = it })
+                }
 
                 Spacer(modifier = Modifier.padding(15.dp))
-                CustomTextFieldForm(
-                    unfocusedColor = unfocusedColor,
-                    focusedColor = focusedColor,
-                    primaryColor = primaryColor,
-                    text = "Nombre del medicamento",
-                    value = name.value,
-                    onValueChange = {
-                        name.value = it
-                    },
-                )
+                Row(
+                    modifier = Modifier.padding(start = 45.dp, end = 20.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column(
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        CustomTextFieldForm(
+                            unfocusedColor = unfocusedColor,
+                            focusedColor = focusedColor,
+                            primaryColor = primaryColor,
+                            text = "Nombre del medicamento",
+                            value = name.value,
+                            onValueChange = {
+                                name.value = it
+                            },
+                        )
+                    }
+
+                    val context = LocalContext.current
+
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_help_24),
+                        contentDescription = "kkk",
+                        modifier = Modifier
+                            .size(25.dp)
+                            .clickable {
+                                Toast
+                                    .makeText(
+                                        context,
+                                        "Puedes ingresar más de un medicamento separado por coma",
+                                        Toast.LENGTH_LONG
+                                    )
+                                    .show()
+                            },
+                        tint = MaterialTheme.colorScheme.onTertiary
+                    )
+                }
 
                 Spacer(modifier = Modifier.padding(15.dp))
-                DropDownList(value = frecuence.value, selectedOptionText = { frecuence.value = it }, toggleBar= toggleBar)
+                Row(modifier = Modifier.padding(horizontal = 45.dp)) {
+                    DropDownList(value = frecuence.value, selectedOptionText = { frecuence.value = it }, toggleBar= toggleBar)
+                }
+
 
                 Spacer(modifier = Modifier.padding(15.dp))
-                OutlinedTextField(
-                    value = hour.value,
-                    onValueChange = {  },
-                    label = { Text("Hora") },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        unfocusedBorderColor = unfocusedColor,
-                        unfocusedLabelColor = unfocusedColor,
-                        focusedBorderColor = focusedColor,
-                        focusedLabelColor = focusedColor,
-                        textColor = primaryColor,
-                        disabledTextColor = primaryColor,
-                        disabledBorderColor = unfocusedColor,
-                        disabledLabelColor = unfocusedColor
-                    ),
-                    readOnly = true,
-                    modifier = Modifier.fillMaxWidth()
-                        .clickable {
-                        showDialog = true
-                        toggleBar(false)
-                    },
-                    enabled = false
-                )
+                Row(modifier = Modifier.padding(horizontal = 45.dp)) {
+                    OutlinedTextField(
+                        value = hour.value,
+                        onValueChange = {  },
+                        label = { Text("Hora") },
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            unfocusedBorderColor = unfocusedColor,
+                            unfocusedLabelColor = unfocusedColor,
+                            focusedBorderColor = focusedColor,
+                            focusedLabelColor = focusedColor,
+                            textColor = primaryColor,
+                            disabledTextColor = primaryColor,
+                            disabledBorderColor = unfocusedColor,
+                            disabledLabelColor = unfocusedColor
+                        ),
+                        readOnly = true,
+                        modifier = Modifier.fillMaxWidth()
+                            .clickable {
+                                showDialog = true
+                                toggleBar(false)
+                            },
+                        enabled = false
+                    )
+                }
+
 
                 Spacer(modifier = Modifier.padding(15.dp))
-                CustomTextFieldForm(
-                    unfocusedColor = unfocusedColor,
-                    focusedColor = focusedColor,
-                    primaryColor = primaryColor,
-                    text = "Número de contacto",
-                    value = contact.value,
-                    onValueChange = {
-                        contact.value = it
-                    },
-                )
+                Row(modifier = Modifier.padding(horizontal = 45.dp)) {
+                    CustomTextFieldForm(
+                        unfocusedColor = unfocusedColor,
+                        focusedColor = focusedColor,
+                        primaryColor = primaryColor,
+                        text = "Número de contacto",
+                        value = contact.value,
+                        onValueChange = {
+                            contact.value = it
+                        },
+                    )
+                }
+
             }
-
-            // step 2
-//            if (step.value == 1) {
-//                Text(text = "Foto medicamento")
-//                Card(modifier = Modifier
-//                    .padding(39.dp, 10.dp)
-//                    .border(1.dp, MaterialTheme.colorScheme.primary),
-//                    colors = CardDefaults.cardColors(
-//                        containerColor = MaterialTheme.colorScheme.background,
-//                    ), content = {
-//                        Column(
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .padding(top = 50.dp, bottom = 70.dp)
-//                                .clickable { step.value = 2
-//                                    toggleBar(false)
-//                                    toggleVisibleTopBar(false)},
-//                            horizontalAlignment = Alignment.CenterHorizontally,
-//                            verticalArrangement = Arrangement.Center
-//                        ) {
-//                            Text(text = "Tomar foto")
-//                            Spacer(modifier = Modifier.padding(15.dp))
-//                            Icon(
-//                                painter = painterResource(id = R.drawable.ic_outline_camera_alt_24),
-//                                contentDescription = "Localized description",
-//                                modifier = Modifier.size(48.dp)
-//                            )
-//                        }
-//                    }
-//                )
-//
-//                Spacer(modifier = Modifier.padding(60.dp))
-//            }
 
             if (step.value == 1 || step.value == 3 || step.value == 4) {
                 Image(
@@ -172,6 +178,7 @@ fun EditAlarmScreen(
                     painter = painterResource(id = R.drawable.medicina),
                     contentDescription = null,
                     modifier = Modifier.padding(horizontal = 40.dp)
+                        .weight(1f)
                         .clickable { step.value = 2
                                     toggleBar(false)
                                     toggleVisibleTopBar(false)},
@@ -182,7 +189,8 @@ fun EditAlarmScreen(
             Row(
                 modifier = Modifier
                     .background(Color.Transparent)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .padding(horizontal = 45.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 CustomButton(

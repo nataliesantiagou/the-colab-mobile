@@ -65,8 +65,7 @@ fun CreateAlarmScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(enabled = true, state = rememberScrollState())
-                .padding(horizontal = 45.dp),
+                .verticalScroll(enabled = true, state = rememberScrollState()),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -80,35 +79,51 @@ fun CreateAlarmScreen(
             )
             Spacer(modifier = Modifier.padding(15.dp))
             if (step.value == 0) {
-                DropDownList(
-                    options = itemsPacient,
-                    value = patient.value,
-                    selectedOptionText = { patient.value = it })
+
+                Row(modifier = Modifier.padding(horizontal = 45.dp)) {
+                    DropDownList(
+                        options = itemsPacient,
+                        value = patient.value,
+                        selectedOptionText = { patient.value = it })
+                }
 
                 Spacer(modifier = Modifier.padding(15.dp))
 
-                val context = LocalContext.current
                 Row(
-                    modifier = Modifier
-                    .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween) {
-                    CustomTextFieldForm(
-                        unfocusedColor = unfocusedColor,
-                        focusedColor = focusedColor,
-                        primaryColor = primaryColor,
-                        text = "Nombre del medicamento",
-                        value = name.value,
-                        onValueChange = {
-                            name.value = it
-                        },
-                        haveTooltip = true
-                    )
+                    modifier = Modifier.padding(start = 45.dp, end = 20.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column(
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        CustomTextFieldForm(
+                            unfocusedColor = unfocusedColor,
+                            focusedColor = focusedColor,
+                            primaryColor = primaryColor,
+                            text = "Nombre del medicamento",
+                            value = name.value,
+                            onValueChange = {
+                                name.value = it
+                            },
+                            haveTooltip = true
+                        )
+                    }
+
+                    val context = LocalContext.current
+
                     Icon(
                         painter = painterResource(id = R.drawable.ic_baseline_help_24),
-                        contentDescription = "",
-                        modifier = Modifier.size(25.dp)
+                        contentDescription = "kkk",
+                        modifier = Modifier
+                            .size(25.dp)
                             .clickable {
-                                       Toast.makeText(context, "Puedes ingresar más de un medicamento separado por coma", Toast.LENGTH_LONG).show()
+                                Toast
+                                    .makeText(
+                                        context,
+                                        "Puedes ingresar más de un medicamento separado por coma",
+                                        Toast.LENGTH_LONG
+                                    )
+                                    .show()
                             },
                         tint = MaterialTheme.colorScheme.onTertiary
                     )
@@ -116,51 +131,58 @@ fun CreateAlarmScreen(
 
 
                 Spacer(modifier = Modifier.padding(15.dp))
-                DropDownList(value = frecuence.value, selectedOptionText = { frecuence.value = it }, toggleBar= toggleBar)
+
+                Row(modifier = Modifier.padding(horizontal = 45.dp)) {
+                    DropDownList(value = frecuence.value, selectedOptionText = { frecuence.value = it }, toggleBar= toggleBar)
+                }
 
                 Spacer(modifier = Modifier.padding(15.dp))
-                OutlinedTextField(
-                    value = hour.value,
-                    onValueChange = {  },
-                    label = { Text("Hora") },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        unfocusedBorderColor = unfocusedColor,
-                        unfocusedLabelColor = unfocusedColor,
-                        focusedBorderColor = focusedColor,
-                        focusedLabelColor = focusedColor,
-                        textColor = primaryColor,
-                        disabledTextColor = primaryColor,
-                        disabledBorderColor = unfocusedColor,
-                        disabledLabelColor = unfocusedColor
-                    ),
-                    readOnly = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            showDialog = true
-                            toggleBar(false)
+                Row(modifier = Modifier.padding(horizontal = 45.dp)) {
+                    OutlinedTextField(
+                        value = hour.value,
+                        onValueChange = {  },
+                        label = { Text("Hora") },
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            unfocusedBorderColor = unfocusedColor,
+                            unfocusedLabelColor = unfocusedColor,
+                            focusedBorderColor = focusedColor,
+                            focusedLabelColor = focusedColor,
+                            textColor = primaryColor,
+                            disabledTextColor = primaryColor,
+                            disabledBorderColor = unfocusedColor,
+                            disabledLabelColor = unfocusedColor
+                        ),
+                        readOnly = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                showDialog = true
+                                toggleBar(false)
+                            },
+                        enabled = false
+                    )
+                }
+
+                Spacer(modifier = Modifier.padding(15.dp))
+                Row(modifier = Modifier.padding(horizontal = 45.dp)) {
+                    CustomTextFieldForm(
+                        unfocusedColor = unfocusedColor,
+                        focusedColor = focusedColor,
+                        primaryColor = primaryColor,
+                        text = "Número de contacto",
+                        value = contact.value,
+                        onValueChange = {
+                            contact.value = it
                         },
-                    enabled = false
-                )
-
-                Spacer(modifier = Modifier.padding(15.dp))
-                CustomTextFieldForm(
-                    unfocusedColor = unfocusedColor,
-                    focusedColor = focusedColor,
-                    primaryColor = primaryColor,
-                    text = "Número de contacto",
-                    value = contact.value,
-                    onValueChange = {
-                        contact.value = it
-                    },
-                )
+                    )
+                }
             }
 
             // step 2
             if (step.value == 1) {
                 Text(text = "Foto medicamento")
                 Card(modifier = Modifier
-                    .padding(top = 40.dp, bottom = 40.dp)
+                    .padding(vertical = 40.dp, horizontal = 45.dp)
                     .border(1.dp, MaterialTheme.colorScheme.primary)
                     .fillMaxWidth(),
                     colors = CardDefaults.cardColors(
@@ -194,10 +216,10 @@ fun CreateAlarmScreen(
 
             if (step.value == 3 || step.value == 4) {
                 Image(
-                    contentScale = ContentScale.FillWidth,
+                    contentScale = ContentScale.Fit,
                     painter = painterResource(id = R.drawable.medicina),
                     contentDescription = null,
-                    modifier = Modifier.padding(horizontal = 40.dp)
+                    modifier = Modifier.padding(horizontal = 40.dp).weight(1f)
                 )
             }
 
@@ -205,7 +227,8 @@ fun CreateAlarmScreen(
             Row(
                 modifier = Modifier
                     .background(Color.Transparent)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .padding(horizontal = 45.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 CustomButton(

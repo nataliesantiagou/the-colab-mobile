@@ -44,14 +44,15 @@ fun FrequencyPickerUI(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 10.dp, horizontal = 8.dp)
+                .padding(vertical = 10.dp)
         ) {
             Spacer(modifier = Modifier.height(30.dp))
 
             Row(
                 modifier = Modifier
                     .background(Color.Transparent)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .padding(start = 8.dp, end = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 IconButton(
@@ -90,7 +91,8 @@ fun FrequencyPickerUI(
                 Row(
                     modifier = Modifier
                         .background(Color.Transparent)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     DropDownListFrequency(

@@ -122,7 +122,7 @@ fun AlarmListScreen(
                 ) {
                     Column(modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
-                            text = "No tienes pacientes registrados por favor crea uno antes de crear un ecordatorio",
+                            text = "No tienes pacientes registrados por favor crea uno antes de crear un recordatorio",
                             textAlign = TextAlign.Center
                         )
                         Spacer(modifier = Modifier.height(24.dp))

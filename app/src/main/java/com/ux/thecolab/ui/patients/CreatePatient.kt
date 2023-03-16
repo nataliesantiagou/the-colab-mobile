@@ -56,7 +56,7 @@ fun CreatePatientScreen(
                 modifier = Modifier
                     .background(Color.Transparent)
                     .fillMaxWidth()
-                    .padding(horizontal = 40.dp),
+                    .padding(horizontal = 45.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 CustomButton(containerColor = primaryColor, contentColor = whiteColor, text = "Cancelar", onClick = { goBack() })
@@ -76,43 +76,50 @@ fun CreatePatientScreen(
                 Column(
                     modifier = Modifier
                         .fillParentMaxHeight()
-                        .fillMaxWidth()
-                        .padding(horizontal = 45.dp),
+                        .fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Spacer(modifier = Modifier.padding(15.dp))
                     Text(text = "Crear pacientes", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = primaryColor)
 
                     Spacer(modifier = Modifier.padding(15.dp))
-                    CustomTextFieldForm(
-                        unfocusedColor = unfocusedColor,
-                        focusedColor = focusedColor,
-                        primaryColor = primaryColor,
-                        text = "Nombre del paciente",
-                        value = name.value,
-                        onValueChange = { name.value = it },
-                    )
-
-                    Spacer(modifier = Modifier.padding(15.dp))
-
-                    val context = LocalContext.current
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween) {
+                    Row(modifier = Modifier.padding(horizontal = 45.dp)) {
                         CustomTextFieldForm(
                             unfocusedColor = unfocusedColor,
                             focusedColor = focusedColor,
                             primaryColor = primaryColor,
-                            text = "Enfermedad",
-                            value = illness.value,
-                            onValueChange = { illness.value = it },
-                            haveTooltip = true
+                            text = "Nombre del paciente",
+                            value = name.value,
+                            onValueChange = { name.value = it },
                         )
+                    }
+
+                    Spacer(modifier = Modifier.padding(15.dp))
+                    Row(
+                        modifier = Modifier.padding(start = 45.dp, end = 20.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Column(
+                            modifier = Modifier.weight(1f),
+                        ) {
+                            CustomTextFieldForm(
+                                unfocusedColor = unfocusedColor,
+                                focusedColor = focusedColor,
+                                primaryColor = primaryColor,
+                                text = "Enfermedad",
+                                value = illness.value,
+                                onValueChange = { illness.value = it },
+                                haveTooltip = true
+                            )
+                        }
+
+                        val context = LocalContext.current
+
                         Icon(
                             painter = painterResource(id = R.drawable.ic_baseline_help_24),
-                            contentDescription = "",
-                            modifier = Modifier.size(25.dp)
+                            contentDescription = "kkk",
+                            modifier = Modifier
+                                .size(25.dp)
                                 .clickable {
                                     Toast.makeText(context, "Puedes ingresar más de una enfermedad separadas por coma", Toast.LENGTH_LONG).show()
                                 },
